@@ -1,0 +1,18 @@
+###
+# Get all users
+GET http://localhost:5074/api/v1/users HTTP/1.1
+
+###
+# login
+POST http://localhost:5074/api/v1/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "john.doe@mail.com",
+  "password": "SuperAdmin1234"
+}
+
+###
+# get current user
+GET http://localhost:5074/api/v1/auth/profile HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQG1haWwuY29tIiwibmFtZWlkIjoiOGNiZDJlNGYtOTg2NC00ZmZhLWIwMTUtNjk5Nzk1YTI1MmY1Iiwicm9sZSI6IkFkbWluIiwiVXNlcklkIjoiOGNiZDJlNGYtOTg2NC00ZmZhLWIwMTUtNjk5Nzk1YTI1MmY1IiwibmJmIjoxNzE1MTA4MzgzLCJleHAiOjE3MTU3MTMxODMsImlhdCI6MTcxNTEwODM4MywiaXNzIjoid2ViZGVtby5jb20ifQ.JQf7dyDv4i_Jc1kzAsgrhty7biRBX3P3BMhUZQTolIU

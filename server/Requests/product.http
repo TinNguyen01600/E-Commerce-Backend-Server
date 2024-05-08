@@ -1,0 +1,11 @@
+###
+# Get all products
+GET http://localhost:5074/api/v1/products HTTP/1.1
+
+###
+# Get single product by Id
+GET http://localhost:5074/api/v1/product/0252fce6-9df6-491d-82ca-6b077a51391d HTTP/1.1
+
+###
+# Get all products by category id
+GET http://localhost:5074/api/v1/products/category/1fdf8fc7-6a70-4db3-a181-4406579258af HTTP/1.1
