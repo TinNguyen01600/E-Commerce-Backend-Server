@@ -33,7 +33,7 @@ public class BaseRepo<T> : IBaseRepo<T> where T : BaseEntity
 
     public virtual async Task<IEnumerable<T>> GetAllAsync(QueryOptions options)
     {
-        return await _data.ToListAsync();
+        return await _data.Skip(options.PageNo).Take(options.PageSize).ToListAsync();
     }
 
     public virtual async Task<T> GetOneByIdAsync(Guid id)

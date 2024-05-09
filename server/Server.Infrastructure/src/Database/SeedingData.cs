@@ -95,6 +95,18 @@ public class SeedingData
                 "00100",
                 Role.Admin,
                 salt
+            ),
+            new User(
+                "Jane",
+                "Smith",
+                "jane.smith@mail.com",
+                "P@ssword1",
+                "Address line 2",
+                "Helsinki",
+                "Finland",
+                "00100",
+                Role.Customer,
+                salt
             )
         };
     }

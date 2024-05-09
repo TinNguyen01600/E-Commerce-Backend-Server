@@ -9,14 +9,12 @@ namespace Server.Infrastructure.src.Database
     public class AppDbContext : DbContext
     {
         public DbSet<User> Users { get; set; } // table `Users` -> `users`
-        // public DbSet<Address> Addresses { get; set; } // table `Addresses` -> `addresses`
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<OrderProduct> OrderProducts{ get; set; }
         // public DbSet<Review> Reviews { get; set; } = null!;
         // public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<ProductImage> ProductImages { get; set; }
-        // public DbSet<Payment> Payments { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {

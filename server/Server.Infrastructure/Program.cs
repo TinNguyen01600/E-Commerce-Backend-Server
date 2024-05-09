@@ -78,12 +78,6 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddScoped<IAddressRepo, AddressRepo>();
-builder.Services.AddScoped<IAddressService, AddressService>();
-
-builder.Services.AddScoped<IWishlistRepo, WishlistRepo>();
-builder.Services.AddScoped<IWishlistService, WishlistService>();
-
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 
