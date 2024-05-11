@@ -8,7 +8,6 @@ public class ReadReviewDTO
     public double Rating { get; set; }
     public string Comment { get; set; } = string.Empty;
     public Guid UserId { get; set; }
-    public DateTime ReviewDate { get; set; }
 
     public void ReadReviews(Review review)
     {
@@ -16,7 +15,6 @@ public class ReadReviewDTO
         review.Rating = Rating;
         review.Comment = Comment;
         review.UserId = UserId;
-        review.ReviewDate = ReviewDate;
     }
 }
 
@@ -24,12 +22,11 @@ public class CreateReviewDTO
 {
     public double Rating { get; set; }
     public string Comment { get; set; } = string.Empty;
-    public DateTime ReviewDate { get; set; }
     public Guid UserId { get; set; }
     public Guid ProductId { get; set; }
     public Review CreateReviews()
     {
-        return new Review(Rating, Comment, UserId, ProductId, ReviewDate);
+        return new Review(Rating, Comment, UserId, ProductId);
     }
 }
 
