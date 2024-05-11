@@ -26,10 +26,10 @@ public class CreateReviewDTO
     public string Comment { get; set; } = string.Empty;
     public DateTime ReviewDate { get; set; }
     public Guid UserId { get; set; }
-    public Guid OrderedProductId { get; set; }
+    public Guid ProductId { get; set; }
     public Review CreateReviews()
     {
-        return new Review(Rating, Comment, UserId, ReviewDate, OrderedProductId);
+        return new Review(Rating, Comment, UserId, ProductId, ReviewDate);
     }
 }
 

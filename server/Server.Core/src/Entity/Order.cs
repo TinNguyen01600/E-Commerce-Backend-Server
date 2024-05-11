@@ -1,22 +1,17 @@
+using Server.Core.src.Entity;
 using Server.Core.src.ValueObject;
 
 namespace Server.Core.Entity;
 
-public class Order
+public class Order : BaseEntity
 {
-    public Guid Id { get; set; }
-    public DateTime OrderDate { get; set; }
     public Status Status { get; set; }
     public Guid UserId { get; set; }
-    public DateTime DateOfDelivery { get; set; }
-    public Guid AddressId { get; set; }
+    public IEnumerable<OrderProduct> OrderProducts { get; set; }
 
-    public Order(Guid userId, Guid addressId)
+    public Order(Guid userId, Status status)
     {
-        Id = Guid.NewGuid();
-        OrderDate = DateTime.Now;
-        Status = Status.processing;
+        Status = status;
         UserId = userId;
-        AddressId = addressId;
     }
 }

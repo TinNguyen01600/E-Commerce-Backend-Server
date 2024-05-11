@@ -58,6 +58,14 @@ namespace Server.Infrastructure.src.Database
             });
 
             base.OnModelCreating(modelBuilder);
+            // -----------------------------------------------------------------------------------------------
+
+            modelBuilder.Entity<Order>(e =>
+            {
+                e.HasData(SeedingData.GetOrders());
+            });
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

@@ -14,16 +14,16 @@ public class OrderService : IOrderService
     {
         _orderRepository = orderRepository;
     }
-    public Task<IEnumerable<ReadOrderDTO>> GetAllOrdersAsync(QueryOptions options)
+    public Task<IEnumerable<OrderReadDTO>> GetAllOrdersAsync(QueryOptions options)
     {
         //logics here??
         throw new NotImplementedException();
     }
-    public Task<IEnumerable<ReadOrderDTO>> GetAllOrdersByUserAsync(QueryOptions options)
+    public Task<IEnumerable<OrderReadDTO>> GetAllOrdersByUserAsync(QueryOptions options)
     {
         throw new NotImplementedException();
     }
-    public Task<ReadOrderDTO> GetOrderByIdAsync(Guid orderId)
+    public Task<OrderReadDTO> GetOrderByIdAsync(Guid orderId)
     {
         throw new NotImplementedException();
     }

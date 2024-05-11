@@ -16,17 +16,17 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet("api/v1/orders")]
-    public async Task<IEnumerable<ReadOrderDTO>> GetAllOrdersAsync([FromQuery] QueryOptions options)
+    public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersAsync([FromQuery] QueryOptions options)
     {
         return await _orderService.GetAllOrdersAsync(options);
     }
     [HttpGet("api/v1/orders/admin/{id}")]
-    public async Task<IEnumerable<ReadOrderDTO>> GetAllOrdersByUserAsync([FromQuery] QueryOptions options, [FromRoute] Guid id)
+    public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersByUserAsync([FromQuery] QueryOptions options, [FromRoute] Guid id)
     {
         return await _orderService.GetAllOrdersByUserAsync(options);
     }
     [HttpGet("api/v1/orders/{id}")]
-    public async Task<ReadOrderDTO> GetOrderByIdAsync([FromRoute] Guid id)
+    public async Task<OrderReadDTO> GetOrderByIdAsync([FromRoute] Guid id)
     {
         return await _orderService.GetOrderByIdAsync(id);
     }
