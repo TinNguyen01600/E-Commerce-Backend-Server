@@ -11,17 +11,6 @@ namespace Server.Infrastructure.src.Repo
         public UserRepo(AppDbContext context) : base(context)
         {
         }
-
-        public Task<bool> ChangePasswordAsync(User user, string newPassword)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> CheckEmailAsync(string email)
-        {
-            throw new NotImplementedException();
-        }
-
         public User FindByEmail(string email)
         {
             return _data.AsNoTracking().FirstOrDefault(user => user.Email == email);

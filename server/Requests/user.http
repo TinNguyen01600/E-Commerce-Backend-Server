@@ -1,9 +1,10 @@
 ###
-# Get all users
+# Get all users (admin)
 GET http://localhost:5074/api/v1/users HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQG1haWwuY29tIiwibmFtZWlkIjoiYmM2YzAzZjEtMzY4My00MTgwLWE1MDUtMzRmYmM0OTcxYTBlIiwicm9sZSI6IkFkbWluIiwiVXNlcklkIjoiYmM2YzAzZjEtMzY4My00MTgwLWE1MDUtMzRmYmM0OTcxYTBlIiwibmJmIjoxNzE1NDUyNTM0LCJleHAiOjE3MTYwNTczMzQsImlhdCI6MTcxNTQ1MjUzNCwiaXNzIjoid2ViZGVtby5jb20ifQ.fk5-kn-xPTam7hzkoAhL51jRq4yXdM1d2Brfq-f-7tg
 
 ###
-# login
+# login with admin
 POST http://localhost:5074/api/v1/auth/login HTTP/1.1
 Content-Type: application/json
 
@@ -13,6 +14,28 @@ Content-Type: application/json
 }
 
 ###
-# get current user
+# get current user (admin)
 GET http://localhost:5074/api/v1/auth/profile HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQG1haWwuY29tIiwibmFtZWlkIjoiOGNiZDJlNGYtOTg2NC00ZmZhLWIwMTUtNjk5Nzk1YTI1MmY1Iiwicm9sZSI6IkFkbWluIiwiVXNlcklkIjoiOGNiZDJlNGYtOTg2NC00ZmZhLWIwMTUtNjk5Nzk1YTI1MmY1IiwibmJmIjoxNzE1MTA4MzgzLCJleHAiOjE3MTU3MTMxODMsImlhdCI6MTcxNTEwODM4MywiaXNzIjoid2ViZGVtby5jb20ifQ.JQf7dyDv4i_Jc1kzAsgrhty7biRBX3P3BMhUZQTolIU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQG1haWwuY29tIiwibmFtZWlkIjoiYmM2YzAzZjEtMzY4My00MTgwLWE1MDUtMzRmYmM0OTcxYTBlIiwicm9sZSI6IkFkbWluIiwiVXNlcklkIjoiYmM2YzAzZjEtMzY4My00MTgwLWE1MDUtMzRmYmM0OTcxYTBlIiwibmJmIjoxNzE1NDUyNTM0LCJleHAiOjE3MTYwNTczMzQsImlhdCI6MTcxNTQ1MjUzNCwiaXNzIjoid2ViZGVtby5jb20ifQ.fk5-kn-xPTam7hzkoAhL51jRq4yXdM1d2Brfq-f-7tg
+
+# --------------------------------------------------------------------------------------------------------------------------------
+###
+# login with customer
+POST http://localhost:5074/api/v1/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "jane.smith@mail.com",
+  "password": "letmein"
+}
+
+###
+# get current user (customer)
+GET http://localhost:5074/api/v1/auth/profile HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbmUuc21pdGhAbWFpbC5jb20iLCJuYW1laWQiOiJiYTQxMWY5Ny1mNTY5LTQ2OTQtYmExNS1mMGI3MDUyYjFkNWUiLCJyb2xlIjoiQ3VzdG9tZXIiLCJVc2VySWQiOiJiYTQxMWY5Ny1mNTY5LTQ2OTQtYmExNS1mMGI3MDUyYjFkNWUiLCJuYmYiOjE3MTU0NTgyNjMsImV4cCI6MTcxNjA2MzA2MywiaWF0IjoxNzE1NDU4MjYzLCJpc3MiOiJ3ZWJkZW1vLmNvbSJ9.QzaVndOcyEZ_qLnYshR1jEHsDyw1hGA4Sm4lhUXxE64
+
+###
+# Get all users (customer)
+GET http://localhost:5074/api/v1/users HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbmUuc21pdGhAbWFpbC5jb20iLCJuYW1laWQiOiJiYTQxMWY5Ny1mNTY5LTQ2OTQtYmExNS1mMGI3MDUyYjFkNWUiLCJyb2xlIjoiQ3VzdG9tZXIiLCJVc2VySWQiOiJiYTQxMWY5Ny1mNTY5LTQ2OTQtYmExNS1mMGI3MDUyYjFkNWUiLCJuYmYiOjE3MTU0NTgyNjMsImV4cCI6MTcxNjA2MzA2MywiaWF0IjoxNzE1NDU4MjYzLCJpc3MiOiJ3ZWJkZW1vLmNvbSJ9.QzaVndOcyEZ_qLnYshR1jEHsDyw1hGA4Sm4lhUXxE64
+

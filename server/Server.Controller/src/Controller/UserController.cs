@@ -1,3 +1,6 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Server.Core.src.Common;
 using Server.Service.src.DTO;
@@ -16,7 +19,8 @@ namespace Server.Controller.src.Controller
             _userService = userService;
         }
 
-        [HttpGet("api/v1/users")] // define endpoint: /users?page=1&pageSize=10
+        [Authorize(Roles = "Admin")]
+        [HttpGet("api/v1/users")]
         public async Task<IEnumerable<UserReadDTO>> GetAllUsersAsync([FromQuery] QueryOptions options)
         {
             try
@@ -29,6 +33,7 @@ namespace Server.Controller.src.Controller
             }
         }
 
+        [Authorize]
         [HttpGet("api/v1/user/{id}")]
         public async Task<UserReadDTO> GetUserByIdAsync([FromRoute] Guid id)
         {
@@ -53,6 +58,8 @@ namespace Server.Controller.src.Controller
                 throw new Exception(ex.Message);
             }
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("api/v1/user/{id}")]
         public async Task<bool> DeleteUserByIdAsync([FromRoute] Guid id)
         {
