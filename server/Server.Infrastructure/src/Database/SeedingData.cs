@@ -190,15 +190,22 @@ public class SeedingData
         {
             for (int j = 0; j < 2; j++)
             {
-                var orderProduct = new OrderProduct {Product = Products[i+j], Quantity = random.Next(15)};
+                var orderProduct = new OrderProduct {ProductId = Products[i+j+random.Next(20)].Id, Quantity = random.Next(15)};
                 OrderProducts.Add(orderProduct);
             }
         }
         return OrderProducts;
     }
-    // public static List<Review> GetReviews()
-    // {
-    //     throw new NotImplementedException();
-    // }
+    // ------------------------------------------------------------------------------------------------------------------
+    public static List<Review> GetReviews()
+    {
+        var Reviews = new List<Review>();
+        for (int i = 0; i<20; i++)
+        {
+            var review = new Review(random.Next(1, 6), $"Review {i} comment", Users[random.Next(1, 6)].Id, Products[random.Next(120)].Id);
+            Reviews.Add(review);
+        }
+        return Reviews;
+    }
 
 }

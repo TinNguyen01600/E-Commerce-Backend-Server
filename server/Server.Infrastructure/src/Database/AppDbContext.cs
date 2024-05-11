@@ -66,6 +66,22 @@ namespace Server.Infrastructure.src.Database
             });
 
             base.OnModelCreating(modelBuilder);
+            // -----------------------------------------------------------------------------------------------
+
+            modelBuilder.Entity<OrderProduct>(e =>
+            {
+                e.HasData(SeedingData.GetOrderProducts());
+            });
+
+            base.OnModelCreating(modelBuilder);
+            // -----------------------------------------------------------------------------------------------
+
+            modelBuilder.Entity<Review>(e =>
+            {
+                e.HasData(SeedingData.GetReviews());
+            });
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
