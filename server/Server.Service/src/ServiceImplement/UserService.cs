@@ -7,49 +7,36 @@ using Server.Service.src.ServiceAbstract;
 
 namespace Server.Service.src.ServiceImplement
 {
-    public class UserService : IUserService
+    public class UserService : BaseService<User, UserReadDTO, UserCreateDTO, UserUpdateDTO, IUserRepo>, IUserService
     {
         private readonly IUserRepo _userRepo;
-        protected IMapper _mapper;
+        private readonly IMapper mapper;
 
-        public UserService(IUserRepo userRepo, IMapper mapper)
+        public UserService(IUserRepo userRepo, IMapper mapper) : base(userRepo, mapper)
         {
             _userRepo = userRepo;
             _mapper = mapper;
         }
 
-        public Task<bool> CheckEmailAsync(string email)
+        public Task<UserReadDTO> CreateOne(UserCreateDTO createObject)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<bool> DeleteOne(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<UserReadDTO> GetOneById(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<UserReadDTO> UpdateOne(Guid id, UserUpdateDTO updateObject)
         {
             throw new NotImplementedException();
         }
 
-        public Task<UserReadDTO> CreateAdminAsync(UserCreateDTO user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UserReadDTO> CreateCustomerAsync(UserCreateDTO user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteUserByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<UserReadDTO>> GetAllUsersAsync(QueryOptions options)
-        {
-            var r = await _userRepo.GetAllAsync(options);
-            return _mapper.Map<IEnumerable<User>, IEnumerable<UserReadDTO>>(r);
-        }
-
-        public Task<UserReadDTO> GetUserByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateUserByIdAsync(UserUpdateDTO user)
+        // --------------------------------------------------------------
+        public Task<bool> EmailAvailable(string email)
         {
             throw new NotImplementedException();
         }

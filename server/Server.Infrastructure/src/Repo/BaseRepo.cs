@@ -24,7 +24,7 @@ public class BaseRepo<T> : IBaseRepo<T> where T : BaseEntity
         return createObject;
     }
 
-    public Task<bool> DeleteOneByIdAsync(T deleteObject)
+    public Task<bool> DeleteOneAsync(T deleteObject)
     {
         _data.Remove(deleteObject);
         _context.SaveChangesAsync();
@@ -42,7 +42,7 @@ public class BaseRepo<T> : IBaseRepo<T> where T : BaseEntity
         return data;
     }
 
-    public async Task<T> UpdateOneByIdAsync(T updateObject)
+    public async Task<T> UpdateOneAsync(T updateObject)
     {
         _data.Update(updateObject);
         await _context.SaveChangesAsync();

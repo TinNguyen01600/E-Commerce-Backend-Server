@@ -25,7 +25,7 @@ namespace Server.Controller.src.Controller
         {
             try
             {
-                return await _userService.GetAllUsersAsync(options);
+                return await _userService.GetAll(options);
             }
             catch (Exception ex)
             {
@@ -39,7 +39,7 @@ namespace Server.Controller.src.Controller
         {
             try
             {
-                return await _userService.GetUserByIdAsync(id);
+                return await _userService.GetOneById(id);
             }
             catch (Exception ex)
             {
@@ -51,7 +51,7 @@ namespace Server.Controller.src.Controller
         {
             try
             {
-                return await _userService.CreateCustomerAsync(user);
+                return await _userService.CreateOne(user);
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace Server.Controller.src.Controller
         {
             try
             {
-                return await _userService.DeleteUserByIdAsync(id);
+                return await _userService.DeleteOne(id);
 
             }
             catch (Exception ex)
@@ -74,11 +74,11 @@ namespace Server.Controller.src.Controller
             }
         }
         [HttpPatch("api/v1/user/{id}")]
-        public async Task<bool> UpdateUserByIdAsync([FromBody] UserUpdateDTO user)
+        public async Task<UserReadDTO> UpdateUserByIdAsync([FromRoute] Guid id, [FromBody] UserUpdateDTO updateUser)
         {
             try
             {
-                return await _userService.UpdateUserByIdAsync(user);
+                return await _userService.UpdateOne(id, updateUser);
 
             }
             catch (Exception ex)
@@ -87,18 +87,18 @@ namespace Server.Controller.src.Controller
             }
         }
 
-        [HttpPatch("api/v1/user/change_password/{id}")]
-        public async Task<bool> ChangePassword([FromBody] UserUpdateDTO user)
-        {
-            try
-            {
-                return await _userService.UpdateUserByIdAsync(user);
+        // [HttpPatch("api/v1/user/change_password/{id}")]
+        // public async Task<bool> ChangePassword([FromBody] UserUpdateDTO user)
+        // {
+        //     try
+        //     {
+        //         return await _userService.UpdateUserByIdAsync(user);
 
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         throw new Exception(ex.Message);
+        //     }
+        // }
     }
 }
