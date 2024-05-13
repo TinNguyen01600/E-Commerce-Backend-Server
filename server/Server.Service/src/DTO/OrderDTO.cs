@@ -10,20 +10,20 @@ public class OrderReadDTO : BaseEntity
     public Status Status { get; set; }
     public Guid UserId { get; set; }
 }
-public class CreateOrderDTO
+public class OrderCreateDTO
 {
     public Guid UserId { get; set; }
     public Status Status { get; set; }
-    public CreateOrderDTO(Guid userId)
+    public OrderCreateDTO(Guid userId)
     {
         UserId = userId;
     }
 }
-public class UpdateOrderDTO
+public class OrderUpdateDTO
 {
     public Status Status { get; set; }
 
-    public UpdateOrderDTO(Status status, DateTime dateOfDelivery, Guid? addressId)
+    public OrderUpdateDTO(Status status, DateTime dateOfDelivery, Guid? addressId)
     {
         Status = status;
     }

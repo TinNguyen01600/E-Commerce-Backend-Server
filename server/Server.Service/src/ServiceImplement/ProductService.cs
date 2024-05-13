@@ -33,7 +33,7 @@ namespace Server.Service.src.ServiceImplement
             var foundItem = await _productRepo.GetOneByIdAsync(id);
             if (foundItem is not null)
             {
-                await _productRepo.DeleteOneByIdAsync(foundItem);
+                await _productRepo.DeleteOneAsync(foundItem);
                 return true;
             }
             else
@@ -86,7 +86,7 @@ namespace Server.Service.src.ServiceImplement
             var foundItem = await _productRepo.GetOneByIdAsync(id);
             if (foundItem is not null)
             {
-                var result = await _productRepo.UpdateOneByIdAsync(_mapper.Map(product, foundItem));
+                var result = await _productRepo.UpdateOneAsync(_mapper.Map(product, foundItem));
                 return _mapper.Map<Product, ProductReadDTO>(result);
             }
             else

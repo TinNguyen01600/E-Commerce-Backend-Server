@@ -1,10 +1,9 @@
 using Server.Core.src.Common;
 using Server.Core.src.Entity;
-// using Server.Service.src.DTO;
-// using Server.Service.src.ServiceAbstraction;
 using Microsoft.AspNetCore.Mvc;
 using Server.Service.src.ServiceAbstract;
 using Server.Service.src.DTO;
+using Server.Service.src.Shared;
 
 namespace Server.Controller.src.Controller;
 
@@ -18,44 +17,46 @@ public class ReviewController : ControllerBase
     }
 
     [HttpGet("/api/v1/reviews")]
-    public async Task<IEnumerable<Review>> GetAllReviewsAsync([FromQuery] QueryOptions options)
+    public async Task<IEnumerable<ReviewReadDTO>> GetAllReviewsAsync([FromQuery] QueryOptions options)
     {
-        return await _reviewService.GetAllReviewsAsync(options);
-    }
-
-    [HttpGet("/api/v1/reviews/user")]
-    public async Task<IEnumerable<Review>> GetAllReviewsByUserAsync([FromQuery] QueryOptions options)
-    {
-        return await _reviewService.GetAllReviewsByUserAsync(options);
+        return await _reviewService.GetAll(options);
     }
 
     [HttpGet("/api/v1/reviews/product/{id}")]
-    public async Task<Review> GetAllReviewsByProductsAsync([FromRoute] Guid id)
+    public async Task<ReviewReadDTO> GetAllReviewsByProductsAsync([FromRoute] Guid id)
     {
-        return await _reviewService.GetAllReviewsByProductsAsync(id);
+        return (ReviewReadDTO)await _reviewService.GetByProduct(id);
     }
 
     [HttpGet("/api/v1/reviews/{id}")]
-    public async Task<Review> GetReviewByIdAsync([FromRoute] Guid id)
+    public async Task<ReviewReadDTO> GetReviewByIdAsync([FromRoute] Guid id)
     {
-        return await _reviewService.GetReviewByIdAsync(id);
+        return await _reviewService.GetOneById(id);
     }
 
     [HttpPost("/api/v1/reviews")]
-    public async Task<Review> CreateReviewAsync([FromBody] CreateReviewDTO review)
+    public async Task<ReviewReadDTO> CreateReviewAsync([FromBody] ReviewCreateDTO review)
     {
-        return await _reviewService.CreateReviewAsync(review);
+        return await _reviewService.CreateOne(review);
     }
 
     [HttpPatch("/api/v1/reviews/{id}")]
-    public async Task<Review> UpdateReviewByIdAsync([FromRoute] Guid id)
+    public async Task<ReviewReadDTO> UpdateReviewByIdAsync([FromRoute] Guid id, [FromBody] ReviewUpdateDTO reviewUpdateDto)
     {
-        return await _reviewService.UpdateReviewByIdAsync(id);
+        ReviewReadDTO foundReview = await _reviewService.GetOneById(id);
+        if (foundReview is null)
+        {
+            throw CustomException.NotFoundException("Review not found");
+        }
+        else
+        {
+            return await _reviewService.UpdateOne(id, reviewUpdateDto);
+        }
     }
 
     [HttpDelete("/api/v1/reviews/{id}")]
     public async Task<bool> DeleteReviewByIdAsync([FromRoute] Guid id)
     {
-        return await _reviewService.DeleteReviewByIdAsync(id);
+        return await _reviewService.DeleteOne(id);
     }
 }

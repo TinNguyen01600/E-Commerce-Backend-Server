@@ -2,6 +2,7 @@ using Server.Service.src.DTO;
 using Server.Service.src.ServiceAbstract;
 using Microsoft.AspNetCore.Mvc;
 using Server.Core.src.Common;
+using System.Security.Claims;
 
 namespace Server.Controller.src.Controller;
 
@@ -18,31 +19,32 @@ public class OrderController : ControllerBase
     [HttpGet("api/v1/orders")]
     public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersAsync([FromQuery] QueryOptions options)
     {
-        return await _orderService.GetAllOrdersAsync(options);
+        return await _orderService.GetAll(options);
     }
     [HttpGet("api/v1/orders/admin/{id}")]
-    public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersByUserAsync([FromQuery] QueryOptions options, [FromRoute] Guid id)
+    public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersByUserAsync([FromRoute] Guid id)
     {
-        return await _orderService.GetAllOrdersByUserAsync(options);
+        return await _orderService.GetByUser(id);
     }
     [HttpGet("api/v1/orders/{id}")]
     public async Task<OrderReadDTO> GetOrderByIdAsync([FromRoute] Guid id)
     {
-        return await _orderService.GetOrderByIdAsync(id);
+        return await _orderService.GetOneById(id);
     }
     [HttpPost("api/v1/orders")]
-    public async Task<CreateOrderDTO> CreateOrderAsync([FromBody] CreateOrderDTO order)
+    public async Task<OrderReadDTO> CreateOrderAsync([FromBody] OrderCreateDTO order)
     {
-        return await _orderService.CreateOrderAsync(order);
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        return await _orderService.CreateOne(Guid.Parse(userId), order);
     }
     [HttpPatch("api/v1/orders/{id}")]
-    public async Task<UpdateOrderDTO> UpdateOrderByIdAsync([FromRoute] Guid id)
+    public async Task<OrderReadDTO> UpdateOrderByIdAsync([FromRoute] Guid id, [FromBody] OrderUpdateDTO orderUpdateDto)
     {
-        return await _orderService.UpdateOrderByIdAsync(id);
+        return await _orderService.UpdateOne(id, orderUpdateDto);
     }
     [HttpDelete("api/v1/orders/{id}")]
     public async Task<bool> DeleteOrderByIdAsync([FromRoute] Guid id)
     {
-        return await _orderService.DeleteOrderByIdAsync(id);
+        return await _orderService.DeleteOne(id);
     }
 }

@@ -1,13 +1,10 @@
-using Server.Core.src.Common;
+using Server.Core.Entity;
 using Server.Service.src.DTO;
 
 namespace Server.Service.src.ServiceAbstract;
-public interface IOrderService
+public interface IOrderService : IBaseService<Order, OrderReadDTO, OrderCreateDTO, OrderUpdateDTO>
 {
-    public Task<IEnumerable<OrderReadDTO>> GetAllOrdersAsync(QueryOptions options);
-    public Task<IEnumerable<OrderReadDTO>> GetAllOrdersByUserAsync(QueryOptions options);
-    public Task<OrderReadDTO> GetOrderByIdAsync(Guid orderId);
-    public Task<CreateOrderDTO> CreateOrderAsync(CreateOrderDTO createOrderDTO);
-    public Task<UpdateOrderDTO> UpdateOrderByIdAsync(Guid orderId);
-    public Task<bool> DeleteOrderByIdAsync(Guid orderId);
+    Task<IEnumerable<OrderReadDTO>> GetByUser(Guid userId);
+    Task<OrderReadDTO> CreateOne(Guid userId, OrderCreateDTO orderCreateDto);
+    Task<bool> CancelOrder(Guid id);
 }

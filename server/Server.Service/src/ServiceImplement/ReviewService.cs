@@ -1,69 +1,30 @@
-using Server.Core.src.Common;
+using AutoMapper;
 using Server.Core.src.Entity;
+using Server.Core.src.RepoAbstract;
 using Server.Service.src.DTO;
 using Server.Service.src.ServiceAbstract;
 
 namespace Server.Service.src.ServiceImplement;
 
-public class ReviewService : IReviewService
+public class ReviewService : BaseService<Review, ReviewReadDTO, ReviewCreateDTO, ReviewUpdateDTO, IReviewRepo>, IReviewService
 {
-    private readonly IReviewService _reviewService;
+    private readonly IReviewRepo _reviewService;
+    private readonly IProductRepo _productRepo;
+    private readonly IUserRepo _userRepo;
 
-    public ReviewService(IReviewService reviewService)
+    public ReviewService(IReviewRepo reviewRepo, IMapper mapper, IProductRepo productRepo, IUserRepo userRepo) : base(reviewRepo, mapper)
     {
-        _reviewService = reviewService;
-    }
-    public Task<Review> CreateReviewAsync(Review review)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Review> CreateReviewAsync(CreateReviewDTO review)
-    {
-        throw new NotImplementedException();
+        _reviewService = reviewRepo;
+        _productRepo = productRepo;
+        _userRepo = userRepo;
     }
 
-    public Task<bool> DeleteReviewByIdAsync(Guid orderId)
+    public Task<ReviewReadDTO> CreateOne(Guid userId, ReviewCreateDTO reviewCreateDto)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Review>> GetAllReviewsAsync(QueryOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Review> GetAllReviewsByProductsAsync(Guid reviewId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<Review>> GetAllReviewsByUserAsync(QueryOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Review> GetReviewByIdAsync(Guid reviewId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Review> UpdateReviewByIdAsync(Guid reviewId)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<Review> IReviewService.GetAllReviewsByProductsAsync(Guid reviewId)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<Review> IReviewService.GetReviewByIdAsync(Guid reviewId)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<Review> IReviewService.UpdateReviewByIdAsync(Guid reviewId)
+    public Task<IEnumerable<ReviewReadDTO>> GetByProduct(Guid productId)
     {
         throw new NotImplementedException();
     }

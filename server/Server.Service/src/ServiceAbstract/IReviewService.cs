@@ -4,13 +4,8 @@ using Server.Service.src.DTO;
 
 namespace Server.Service.src.ServiceAbstract;
 
-public interface IReviewService
+public interface IReviewService : IBaseService<Review, ReviewReadDTO, ReviewCreateDTO, ReviewUpdateDTO>
 {
-    public Task<IEnumerable<Review>> GetAllReviewsAsync(QueryOptions options);
-    public Task<IEnumerable<Review>> GetAllReviewsByUserAsync(QueryOptions options);
-    public Task<Review> GetAllReviewsByProductsAsync(Guid reviewId);
-    public Task<Review> GetReviewByIdAsync(Guid reviewId);
-    public Task<Review> CreateReviewAsync(CreateReviewDTO review);
-    public Task<Review> UpdateReviewByIdAsync(Guid reviewId);
-    public Task<bool> DeleteReviewByIdAsync(Guid orderId);
+    Task<IEnumerable<ReviewReadDTO>> GetByProduct(Guid productId);
+    Task<ReviewReadDTO> CreateOne(Guid userId, ReviewCreateDTO reviewCreateDto);
 }

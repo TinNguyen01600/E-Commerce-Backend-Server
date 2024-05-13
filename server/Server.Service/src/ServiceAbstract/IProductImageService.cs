@@ -1,14 +1,10 @@
 using Server.Core.src.Common;
+using Server.Core.src.Entity;
 using Server.Service.src.DTO;
 
 namespace Server.Service.src.ServiceAbstract
 {
-    public interface IProductImageService
+    public interface IProductImageService : IBaseService<ProductImage, ProductImageReadDTO, ProductImageCreateDTO, ProductImageUpdateDTO>
     {
-        Task<IEnumerable<ProductImageReadDTO>> GetAllProductImagesAsync(QueryOptions options);
-        Task<ProductImageReadDTO> GetProductImageById(Guid id);
-        Task<ProductImageReadDTO> CreateProductImage(ProductImageCreateDTO prodImg);
-        Task<ProductImageReadDTO> UpdateProductImage(Guid id, ProductImageUpdateDTO prodImg);
-        Task<bool> DeleteProductImage(Guid id);
     }
 }

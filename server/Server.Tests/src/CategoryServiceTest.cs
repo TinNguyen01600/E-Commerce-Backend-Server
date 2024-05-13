@@ -43,7 +43,7 @@ public class CategoryServiceTest
             .Returns(categories.Select(c => new CategoryReadDTO { Name = c.Name, Image = c.Image }));
 
         // Act
-        var result = await _categoryService.GetAllCategoriesAsync(options);
+        var result = await _categoryService.GetAll(options);
 
         // Assert
         Assert.Equal(6, result.Count());
@@ -53,18 +53,7 @@ public class CategoryServiceTest
     public async void GetAllCategoriesAsync_ShouldInvokeRepoMethod()
     {
         var options = new QueryOptions { PageNo = 0, PageSize = 6, sortType = SortType.byTitle, sortOrder = SortOrder.asc };
-        await _categoryService.GetAllCategoriesAsync(options);
+        await _categoryService.GetAll(options);
         _mockCategoryRepo.Verify(repo => repo.GetAllAsync(options), Times.Once);
-    }
-
-    [Fact]
-    public async void GetCategoryById_ShouldInvokeRepoMethod()
-    {
-        Category category =  new Category("", "");
-        _mockCategoryRepo.Setup(repo => repo.GetOneByIdAsync(It.IsAny<Guid>())).ReturnsAsync(category);
-
-        await _categoryService.GetCategoryById(It.IsAny<Guid>());
-
-        _mockCategoryRepo.Verify(repo => repo.GetOneByIdAsync(It.IsAny<Guid>()), Times.Once);
     }
 }

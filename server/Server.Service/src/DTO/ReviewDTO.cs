@@ -2,7 +2,7 @@ using Server.Core.src.Entity;
 
 namespace Server.Service.src.DTO;
 
-public class ReadReviewDTO
+public class ReviewReadDTO
 {
     public Guid Id { get; set; }
     public double Rating { get; set; }
@@ -18,7 +18,7 @@ public class ReadReviewDTO
     }
 }
 
-public class CreateReviewDTO
+public class ReviewCreateDTO
 {
     public double Rating { get; set; }
     public string Comment { get; set; } = string.Empty;
@@ -30,7 +30,7 @@ public class CreateReviewDTO
     }
 }
 
-public class UpdateReviewsDTO
+public class ReviewUpdateDTO
 {
     public double Rating { get; set; }
     public string Comment { get; set; } = string.Empty;

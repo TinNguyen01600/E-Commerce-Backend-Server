@@ -21,7 +21,7 @@ namespace Server.Controller.src.Controller
             Console.WriteLine("GetAllCategoriesAsync");
             try
             {
-                return await _categoryServices.GetAllCategoriesAsync(options);
+                return await _categoryServices.GetAll(options);
             }
             catch (Exception ex)
             {
@@ -32,23 +32,23 @@ namespace Server.Controller.src.Controller
         [HttpGet("api/v1/category/{id}")] 
         public async Task<CategoryReadDTO> GetCategoryByIdAsync([FromRoute] Guid id)
         {
-            return await _categoryServices.GetCategoryById(id);
+            return await _categoryServices.GetOneById(id);
         }
 
         [HttpPost("api/v1/category")] 
         public async Task<CategoryReadDTO> CreateCategoryAsync([FromBody] CategoryCreateDTO category)
         {
-            return await _categoryServices.CreateCategory(category);
+            return await _categoryServices.CreateOne(category);
         }
         [HttpPatch("api/v1/category/{id}")] 
         public async Task<ActionResult<CategoryReadDTO>> UpdateCategoryAsync([FromRoute] Guid id, [FromBody] CategoryUpdateDTO category)
         {
-            return Ok(await _categoryServices.UpdateCategory(id, category));
+            return Ok(await _categoryServices.UpdateOne(id, category));
         }
         [HttpDelete("api/v1/category/{id}")] 
         public async Task<bool> DeleteCategoryAsync([FromRoute] Guid id)
         {
-            return await _categoryServices.DeleteCategory(id);
+            return await _categoryServices.DeleteOne(id);
         }
     }
 }

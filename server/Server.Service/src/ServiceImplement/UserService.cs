@@ -1,5 +1,4 @@
 using AutoMapper;
-using Server.Core.src.Common;
 using Server.Core.src.Entity;
 using Server.Core.src.RepoAbstract;
 using Server.Service.src.DTO;
@@ -16,23 +15,6 @@ namespace Server.Service.src.ServiceImplement
         {
             _userRepo = userRepo;
             _mapper = mapper;
-        }
-
-        public Task<UserReadDTO> CreateOne(UserCreateDTO createObject)
-        {
-            throw new NotImplementedException();
-        }
-        public Task<bool> DeleteOne(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-        public Task<UserReadDTO> GetOneById(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-        public Task<UserReadDTO> UpdateOne(Guid id, UserUpdateDTO updateObject)
-        {
-            throw new NotImplementedException();
         }
 
         // --------------------------------------------------------------

@@ -21,7 +21,7 @@ namespace Server.Controller.src.Controller
             Console.WriteLine("GetAllCategoriesAsync");
             try
             {
-                return await _productImageService.GetAllProductImagesAsync(options);
+                return await _productImageService.GetAll(options);
             }
             catch (Exception ex)
             {
@@ -32,23 +32,23 @@ namespace Server.Controller.src.Controller
         [HttpGet("api/v1/productsImage/{id}")] 
         public async Task<ProductImageReadDTO> GetProductImageByIdAsync([FromRoute] Guid id)
         {
-            return await _productImageService.GetProductImageById(id);
+            return await _productImageService.GetOneById(id);
         }
 
         [HttpPost("api/v1/productsImage")] 
         public async Task<ProductImageReadDTO> CreateProductImageByIdAsync([FromBody] ProductImageCreateDTO productImg)
         {
-            return await _productImageService.CreateProductImage(productImg);
+            return await _productImageService.CreateOne(productImg);
         }
         [HttpPatch("{id:guid}")]
         public async Task<ProductImageReadDTO> UpdateProductImageAsync([FromRoute] Guid id, [FromBody] ProductImageUpdateDTO category)
         {
-            return await _productImageService.UpdateProductImage(id, category);
+            return await _productImageService.UpdateOne(id, category);
         }
         [HttpDelete("{id:guid}")] 
         public async Task<bool> DeleteCategoryAsync([FromRoute] Guid id)
         {
-            return await _productImageService.DeleteProductImage(id);
+            return await _productImageService.DeleteOne(id);
         }
     }
 }

@@ -1,14 +1,10 @@
 using Server.Core.src.Common;
+using Server.Core.src.Entity;
 using Server.Service.src.DTO;
 
 namespace Server.Service.src.ServiceAbstract
 {
-    public interface ICategoryService
+    public interface ICategoryService : IBaseService<Category, CategoryReadDTO, CategoryCreateDTO, CategoryUpdateDTO>
     {
-        public Task<IEnumerable<CategoryReadDTO>> GetAllCategoriesAsync(QueryOptions options);
-        public Task<CategoryReadDTO> GetCategoryById(Guid id);
-        public Task<CategoryReadDTO> CreateCategory(CategoryCreateDTO category);
-        public Task<CategoryReadDTO> UpdateCategory(Guid id, CategoryUpdateDTO category);
-        public Task<bool> DeleteCategory(Guid id);
     }
 }
