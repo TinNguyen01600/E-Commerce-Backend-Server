@@ -3,6 +3,7 @@ using Server.Core.src.Entity;
 using Server.Core.src.RepoAbstract;
 using Server.Service.src.DTO;
 using Server.Service.src.ServiceAbstract;
+using Server.Service.src.Shared;
 
 namespace Server.Service.src.ServiceImplement;
 
@@ -19,13 +20,32 @@ public class ReviewService : BaseService<Review, ReviewReadDTO, ReviewCreateDTO,
         _userRepo = userRepo;
     }
 
-    public Task<ReviewReadDTO> CreateOne(Guid userId, ReviewCreateDTO reviewCreateDto)
+    public async Task<ReviewReadDTO> CreateOne(Guid userId, ReviewCreateDTO reviewCreateDto)
     {
-        throw new NotImplementedException();
+        var newReview = _mapper.Map<ReviewCreateDTO, Review>(reviewCreateDto);
+        var foundProduct = await _productRepo.GetOneByIdAsync(reviewCreateDto.ProductId);
+        var foundUser = await _userRepo.GetOneByIdAsync(userId);
+        if (foundProduct != null && foundUser != null)
+        {
+            newReview.ProductId = foundProduct.Id;
+            newReview.UserId = foundUser.Id;
+            var result = await _repo.CreateOneAsync(newReview);
+            return _mapper.Map<Review, ReviewReadDTO>(result);
+        }
+        throw CustomException.NotFoundException("User or product not found");
     }
 
-    public Task<IEnumerable<ReviewReadDTO>> GetByProduct(Guid productId)
+    public async Task<IEnumerable<ReviewReadDTO>> GetByProduct(Guid productId)
     {
-        throw new NotImplementedException();
+        var foundProduct = _productRepo.GetOneByIdAsync(productId);
+        if (foundProduct is not null)
+        {
+            var result = await _repo.GetByProduct(productId);
+            return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewReadDTO>>(result);
+        }
+        else
+        {
+            throw CustomException.NotFoundException();
+        }
     }
 }

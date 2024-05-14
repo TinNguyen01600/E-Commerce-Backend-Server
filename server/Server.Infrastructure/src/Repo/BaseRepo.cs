@@ -8,7 +8,7 @@ namespace Server.Infrastructure.src.Repository;
 
 public class BaseRepo<T> : IBaseRepo<T> where T : BaseEntity
 {
-    private readonly AppDbContext _context;
+    protected readonly AppDbContext _context;
     protected readonly DbSet<T> _data;
 
     public BaseRepo(AppDbContext context)
@@ -17,7 +17,7 @@ public class BaseRepo<T> : IBaseRepo<T> where T : BaseEntity
         _data = _context.Set<T>();
     }
 
-    public async Task<T> CreateOneAsync(T createObject)
+    public virtual async Task<T> CreateOneAsync(T createObject)
     {
         await _data.AddAsync(createObject);
         await _context.SaveChangesAsync();

@@ -13,7 +13,7 @@ namespace Server.Infrastructure.src.Database
         public DbSet<Category> Categories { get; set; }
         public DbSet<OrderProduct> OrderProducts{ get; set; }
         // public DbSet<Review> Reviews { get; set; } = null!;
-        // public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)

@@ -13,7 +13,6 @@ namespace Server.Service.src.ServiceImplement
         private readonly IProductRepo _productRepo;
         private readonly ICategoryRepo _categoryRepo;
         protected IMapper _mapper;
-        private IMapper mapper;
 
         public ProductService(IProductRepo productRepo, IMapper mapper, ICategoryRepo categoryRepo)
         {
