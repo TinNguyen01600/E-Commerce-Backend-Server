@@ -28,7 +28,7 @@ public class ReviewService : BaseService<Review, ReviewReadDTO, ReviewCreateDTO,
         if (foundProduct != null && foundUser != null)
         {
             newReview.ProductId = foundProduct.Id;
-            newReview.UserId = foundUser.Id;
+            newReview.User = foundUser;
             var result = await _repo.CreateOneAsync(newReview);
             return _mapper.Map<Review, ReviewReadDTO>(result);
         }
@@ -37,7 +37,7 @@ public class ReviewService : BaseService<Review, ReviewReadDTO, ReviewCreateDTO,
 
     public async Task<IEnumerable<ReviewReadDTO>> GetByProduct(Guid productId)
     {
-        var foundProduct = _productRepo.GetOneByIdAsync(productId);
+        var foundProduct = await _productRepo.GetOneByIdAsync(productId);
         if (foundProduct is not null)
         {
             var result = await _repo.GetByProduct(productId);

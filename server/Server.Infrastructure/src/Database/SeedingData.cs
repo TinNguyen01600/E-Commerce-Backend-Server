@@ -202,7 +202,15 @@ public class SeedingData
         var Reviews = new List<Review>();
         for (int i = 0; i<20; i++)
         {
-            var review = new Review(random.Next(1, 6), $"Review {i} comment", Users[random.Next(1, 6)].Id, Products[random.Next(120)].Id);
+            var temp = random.Next(1, 6);
+            // var review = new Review(random.Next(1, 6), $"Review {i} comment",Users[temp], Users[temp].Id, Products[random.Next(120)].Id);
+            var review = new Review {
+                Id = Guid.NewGuid(),
+                Rating = random.Next(1, 6),
+                Comment = $"Review {i} comment",
+                User = Users[temp],
+                ProductId = Products[random.Next(120)].Id
+            };
             Reviews.Add(review);
         }
         return Reviews;

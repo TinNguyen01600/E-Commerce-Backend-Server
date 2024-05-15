@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Server.Service.src.ServiceAbstract;
 using Server.Service.src.DTO;
 using Server.Service.src.Shared;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Server.Controller.src.Controller;
 
@@ -23,9 +25,9 @@ public class ReviewController : ControllerBase
     }
 
     [HttpGet("/api/v1/reviews/product/{id}")]
-    public async Task<ReviewReadDTO> GetAllReviewsByProductsAsync([FromRoute] Guid id)
+    public async Task<IEnumerable<ReviewReadDTO>> GetAllReviewsByProductsAsync([FromRoute] Guid id)
     {
-        return (ReviewReadDTO)await _reviewService.GetByProduct(id);
+        return await _reviewService.GetByProduct(id);
     }
 
     [HttpGet("/api/v1/reviews/{id}")]
@@ -34,10 +36,12 @@ public class ReviewController : ControllerBase
         return await _reviewService.GetOneById(id);
     }
 
+    [Authorize(Roles = "Customer")]
     [HttpPost("/api/v1/reviews")]
     public async Task<ReviewReadDTO> CreateReviewAsync([FromBody] ReviewCreateDTO review)
     {
-        return await _reviewService.CreateOne(review);
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        return await _reviewService.CreateOne(Guid.Parse(userId), review);
     }
 
     [HttpPatch("/api/v1/reviews/{id}")]

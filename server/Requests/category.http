@@ -21,4 +21,4 @@ Content-Type: application/json
 
 ###
 # Get single category by Id
-GET http://localhost:5074/api/v1/category/1fdf8fc7-6a70-4db3-a181-4406579258af HTTP/1.1
+GET http://localhost:5074/api/v1/category/01551c75-520b-4a08-9c6c-3b90755db500 HTTP/1.1

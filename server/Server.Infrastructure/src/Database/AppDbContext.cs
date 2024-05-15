@@ -12,7 +12,7 @@ namespace Server.Infrastructure.src.Database
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<OrderProduct> OrderProducts{ get; set; }
-        // public DbSet<Review> Reviews { get; set; } = null!;
+        public DbSet<Review> Reviews { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
 
@@ -76,12 +76,12 @@ namespace Server.Infrastructure.src.Database
             base.OnModelCreating(modelBuilder);
             // -----------------------------------------------------------------------------------------------
 
-            modelBuilder.Entity<Review>(e =>
-            {
-                e.HasData(SeedingData.GetReviews());
-            });
+            // modelBuilder.Entity<Review>(e =>
+            // {
+            //     e.HasData(SeedingData.GetReviews());
+            // });
 
-            base.OnModelCreating(modelBuilder);
+            // base.OnModelCreating(modelBuilder);
         }
     }
 }

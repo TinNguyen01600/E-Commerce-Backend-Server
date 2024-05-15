@@ -9,14 +9,6 @@ public class Review : BaseEntity
     
     [MinLength(5)]
     public string Comment { get; set; } = string.Empty;
-    public Guid UserId { get; set; }
+    public User User{ get; set; }
     public Guid ProductId { get; set; }
-
-    public Review(double rating, string comment, Guid userId, Guid productId)
-    {
-        Rating = rating;
-        Comment = comment;
-        UserId = userId;
-        ProductId = productId;
-    }
 }

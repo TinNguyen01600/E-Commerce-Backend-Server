@@ -23,9 +23,9 @@ public class MapperProfile : Profile
         CreateMap<ProductImageCreateDTO, ProductImage>();
         CreateMap<ProductImageUpdateDTO, ProductImage>().ForAllMembers(opt => opt.Condition((src, dest, member) => member != null));
 
-        // CreateMap<Review, ReviewReadDTO>();
-        // CreateMap<ReviewCreateDTO, Review>();
-        // CreateMap<ReviewUpdateDTO, Review>().ForAllMembers(opt => opt.Condition((src, dest, member) => member != null));
+        CreateMap<Review, ReviewReadDTO>();
+        CreateMap<ReviewCreateDTO, Review>();
+        CreateMap<ReviewUpdateDTO, Review>().ForAllMembers(opt => opt.Condition((src, dest, member) => member != null));
 
         // CreateMap<Order, OrderReadDTO>()
         //     .ForMember(dest => dest.User, opt => opt.MapFrom(s => s.User));

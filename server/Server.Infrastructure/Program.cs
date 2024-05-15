@@ -87,6 +87,12 @@ builder.Services.AddScoped<IProductImageRepo, ProductImageRepo>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepo, ProductRepo>();
 
+builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IReviewRepo, ReviewRepo>();
+
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderRepo, OrderRepo>();
+
 // error handler middleware
 builder.Services.AddTransient<ExceptionHanlerMiddleware>();
 

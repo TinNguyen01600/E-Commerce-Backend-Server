@@ -7,14 +7,14 @@ public class ReviewReadDTO
     public Guid Id { get; set; }
     public double Rating { get; set; }
     public string Comment { get; set; } = string.Empty;
-    public Guid UserId { get; set; }
+    public User User { get; set; }
 
     public void ReadReviews(Review review)
     {
         review.Id = Id;
         review.Rating = Rating;
         review.Comment = Comment;
-        review.UserId = UserId;
+        review.User = User;
     }
 }
 
@@ -22,12 +22,7 @@ public class ReviewCreateDTO
 {
     public double Rating { get; set; }
     public string Comment { get; set; } = string.Empty;
-    public Guid UserId { get; set; }
     public Guid ProductId { get; set; }
-    public Review CreateReviews()
-    {
-        return new Review(Rating, Comment, UserId, ProductId);
-    }
 }
 
 public class ReviewUpdateDTO
