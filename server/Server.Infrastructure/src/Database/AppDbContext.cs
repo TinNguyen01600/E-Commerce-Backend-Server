@@ -60,20 +60,20 @@ namespace Server.Infrastructure.src.Database
             base.OnModelCreating(modelBuilder);
             // -----------------------------------------------------------------------------------------------
 
-            modelBuilder.Entity<Order>(e =>
-            {
-                e.HasData(SeedingData.GetOrders());
-            });
+            // modelBuilder.Entity<Order>(e =>
+            // {
+            //     e.HasData(SeedingData.GetOrders());
+            // });
 
-            base.OnModelCreating(modelBuilder);
+            // base.OnModelCreating(modelBuilder);
             // -----------------------------------------------------------------------------------------------
 
-            modelBuilder.Entity<OrderProduct>(e =>
-            {
-                e.HasData(SeedingData.GetOrderProducts());
-            });
+            // modelBuilder.Entity<OrderProduct>(e =>
+            // {
+            //     e.HasData(SeedingData.GetOrderProducts());
+            // });
 
-            base.OnModelCreating(modelBuilder);
+            // base.OnModelCreating(modelBuilder);
             // -----------------------------------------------------------------------------------------------
 
             // modelBuilder.Entity<Review>(e =>

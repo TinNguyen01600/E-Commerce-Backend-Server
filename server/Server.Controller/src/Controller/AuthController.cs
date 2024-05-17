@@ -9,6 +9,7 @@ using Server.Service.src.ServiceAbstract.Authentication;
 namespace Server.Controller.src.Controller;
 
 [ApiController]
+[Route("api/v1/auth")]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
@@ -18,7 +19,7 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
-    [HttpPost("api/v1/auth/login")]
+    [HttpPost("login")]
     public string Login([FromBody] UserCredential credential)
     {
         Console.WriteLine("In Authentication");
@@ -26,7 +27,7 @@ public class AuthController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("api/v1/auth/profile")]
+    [HttpGet("profile")]
     public async Task<UserReadDTO> GetCurrentProfile()
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;

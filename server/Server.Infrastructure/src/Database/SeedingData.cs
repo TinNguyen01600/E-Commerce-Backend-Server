@@ -167,35 +167,35 @@ public class SeedingData
     public static List<User> Users = GetUsers();
 
     // ------------------------------------------------------------------------------------------------------------------
-    // public static List<Order> GetOrders()
-    // {
-    //     return new List<Order>{
-    //         new Order(Users[1].Id, Status.completed),
-    //         new Order(Users[1].Id, Status.cancelled),
-    //         new Order(Users[2].Id, Status.pending),
-    //         new Order(Users[2].Id, Status.cancelled),
-    //         new Order(Users[3].Id, Status.delivered),
-    //         new Order(Users[3].Id, Status.processing),
-    //         new Order(Users[4].Id, Status.shipped),
-    //         new Order(Users[4].Id, Status.completed),
-    //         new Order(Users[5].Id, Status.delivered),
-    //         new Order(Users[5].Id, Status.delivered)
-    //     };
-    // }
-    // public static List<Order> Orders = GetOrders();
-    // public static List<OrderProduct> GetOrderProducts()
-    // {
-    //     var OrderProducts = new List<OrderProduct>();
-    //     for (int i = 0; i < Orders.Count(); i++)
-    //     {
-    //         for (int j = 0; j < 2; j++)
-    //         {
-    //             var orderProduct = new OrderProduct {ProductId = Products[i+j+random.Next(20)].Id, Quantity = random.Next(15)};
-    //             OrderProducts.Add(orderProduct);
-    //         }
-    //     }
-    //     return OrderProducts;
-    // }
+    public static List<Order> GetOrders()
+    {
+        return new List<Order>{
+            new Order{User = Users[1], Status = Status.completed},
+            new Order{User = Users[1], Status = Status.cancelled},
+            new Order{User = Users[2], Status = Status.pending},
+            new Order{User = Users[2], Status = Status.cancelled},
+            new Order{User = Users[3], Status = Status.delivered},
+            new Order{User = Users[3], Status = Status.processing},
+            new Order{User = Users[4], Status = Status.shipped},
+            new Order{User = Users[4], Status = Status.completed},
+            new Order{User = Users[5], Status = Status.delivered},
+            new Order{User = Users[5], Status = Status.delivered}
+        };
+    }
+    public static List<Order> Orders = GetOrders();
+    public static List<OrderProduct> GetOrderProducts()
+    {
+        var OrderProducts = new List<OrderProduct>();
+        for (int i = 0; i < Orders.Count(); i++)
+        {
+            for (int j = 0; j < 2; j++)
+            {
+                var orderProduct = new OrderProduct {Product = Products[i+j+random.Next(20)], Quantity = random.Next(15)};
+                OrderProducts.Add(orderProduct);
+            }
+        }
+        return OrderProducts;
+    }
     // ------------------------------------------------------------------------------------------------------------------
     public static List<Review> GetReviews()
     {
@@ -203,7 +203,6 @@ public class SeedingData
         for (int i = 0; i<20; i++)
         {
             var temp = random.Next(1, 6);
-            // var review = new Review(random.Next(1, 6), $"Review {i} comment",Users[temp], Users[temp].Id, Products[random.Next(120)].Id);
             var review = new Review {
                 Id = Guid.NewGuid(),
                 Rating = random.Next(1, 6),

@@ -47,7 +47,7 @@ public class ProductRepo : BaseRepo<Product>, IProductRepo
     public IEnumerable<Product> GetMostPurchased(int topNumber)
     {
         var mostPurchasedProducts = _orderProducts
-                .GroupBy(orderProduct => orderProduct.ProductId)
+                .GroupBy(orderProduct => orderProduct.Product.Id)
                 .Select(group => new
                 {
                     ProductId = group.Key,

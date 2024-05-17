@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Core.src.Common;
 using Server.Service.src.DTO;
@@ -35,17 +36,20 @@ namespace Server.Controller.src.Controller
             return await _categoryServices.GetOneById(id);
         }
 
-        [HttpPost("api/v1/category")] 
+        [HttpPost("api/v1/category")]
+        [Authorize(Roles = "Admin")]
         public async Task<CategoryReadDTO> CreateCategoryAsync([FromBody] CategoryCreateDTO category)
         {
             return await _categoryServices.CreateOne(category);
         }
-        [HttpPatch("api/v1/category/{id}")] 
+        [HttpPatch("api/v1/category/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CategoryReadDTO>> UpdateCategoryAsync([FromRoute] Guid id, [FromBody] CategoryUpdateDTO category)
         {
             return Ok(await _categoryServices.UpdateOne(id, category));
         }
-        [HttpDelete("api/v1/category/{id}")] 
+        [HttpDelete("api/v1/category/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<bool> DeleteCategoryAsync([FromRoute] Guid id)
         {
             return await _categoryServices.DeleteOne(id);

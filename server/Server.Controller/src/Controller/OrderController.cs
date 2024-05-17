@@ -3,6 +3,7 @@ using Server.Service.src.ServiceAbstract;
 using Microsoft.AspNetCore.Mvc;
 using Server.Core.src.Common;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Server.Controller.src.Controller;
 
@@ -17,11 +18,13 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet("api/v1/orders")]
+    [Authorize(Roles = "Admin")]
     public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersAsync([FromQuery] QueryOptions options)
     {
         return await _orderService.GetAll(options);
     }
     [HttpGet("api/v1/orders/admin/{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersByUserAsync([FromRoute] Guid id)
     {
         return await _orderService.GetByUser(id);
