@@ -6,31 +6,16 @@ namespace Server.Service.src.DTO;
 
 public class OrderReadDTO : BaseEntity
 {
-    public DateTime OrderDate { get; set; }
-    public Status Status { get; set; }
-    public Guid UserId { get; set; }
+    public UserReadDTO User { get; set; }
+    public IEnumerable<OrderProductReadDTO> OrderProducts { get; set; }
+    public Status OrderStatus { get; set; }
 }
 public class OrderCreateDTO
 {
-    public Guid UserId { get; set; }
-    public Status Status { get; set; }
-    public OrderCreateDTO(Guid userId)
-    {
-        UserId = userId;
-    }
+    public IEnumerable<OrderProductCreateDTO> OrderProducts { get; set; }
+    public Status OrderStatus { get; set; } = Status.pending;
 }
 public class OrderUpdateDTO
 {
-    public Status Status { get; set; }
-
-    public OrderUpdateDTO(Status status, DateTime dateOfDelivery, Guid? addressId)
-    {
-        Status = status;
-    }
-
-    public Order UpdateOrder(Order oldOrder)
-    {
-        oldOrder.Status = Status;
-        return oldOrder;
-    }
+    public Status OrderStatus { get; set; } = Status.pending;
 }

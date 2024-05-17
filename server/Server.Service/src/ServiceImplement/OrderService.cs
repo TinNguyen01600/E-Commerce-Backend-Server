@@ -1,9 +1,11 @@
 using AutoMapper;
 using Server.Core.Entity;
-using Server.Core.src.Common;
+using Server.Core.src.Entity;
 using Server.Core.src.RepoAbstract;
+using Server.Core.src.ValueObject;
 using Server.Service.src.DTO;
 using Server.Service.src.ServiceAbstract;
+using Server.Service.src.Shared;
 
 namespace Server.Service.src.ServiceImplement;
 
@@ -18,18 +20,72 @@ public class OrderService : BaseService<Order, OrderReadDTO, OrderCreateDTO, Ord
         _productRepo = productRepo;
     }
 
-    public Task<bool> CancelOrder(Guid id)
+    public async Task<bool> CancelOrder(Guid id)
     {
-        throw new NotImplementedException();
+        var foundOrder = await _repo.GetOneByIdAsync(id);
+        DateTime currentDate = DateTime.Now;
+        if (foundOrder is null)
+        {
+            return false;
+        }
+        else
+        {
+            TimeSpan timeDifference = currentDate - foundOrder.CreatedAt;
+            if (timeDifference <= TimeSpan.FromHours(24))
+            {
+                foundOrder.Status = Status.cancelled;
+                await _repo.UpdateOneAsync(foundOrder);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
-    public Task<OrderReadDTO> CreateOne(Guid userId, OrderCreateDTO orderCreateDto)
+    public async Task<OrderReadDTO> CreateOne(Guid userId, OrderCreateDTO orderCreateDto)
     {
-        throw new NotImplementedException();
+        var foundUser = _userRepo.GetOneByIdAsync(userId);
+        if (foundUser is null)
+        {
+            throw CustomException.NotFoundException("User not found");
+        }
+        else
+        {
+            var order = _mapper.Map<Order>(orderCreateDto);
+            order.User = await foundUser;
+            var newOrderProductList = new List<OrderProduct>();
+            foreach (var orderProductDto in orderCreateDto.OrderProducts)
+            {
+                var foundProduct = _productRepo.GetOneByIdAsync(orderProductDto.ProductId);
+                if (foundProduct == null)
+                {
+                    throw CustomException.NotFoundException("Product not found");
+                }
+                newOrderProductList.Add(new OrderProduct
+                {
+                    Product = await foundProduct,
+                    Quantity = orderProductDto.Quantity,
+                });
+            }
+            order.OrderProducts = newOrderProductList;
+            var createdOrder = await _repo.CreateOneAsync(order);
+            return _mapper.Map<OrderReadDTO>(createdOrder);
+        }
     }
 
-    public Task<IEnumerable<OrderReadDTO>> GetByUser(Guid userId)
+    public async Task<IEnumerable<OrderReadDTO>> GetByUser(Guid userId)
     {
-        throw new NotImplementedException();
+        var foundUser = _userRepo.GetOneByIdAsync(userId);
+        if (foundUser is not null)
+        {
+            var result = await _repo.GetByUser(userId);
+            return _mapper.Map<IEnumerable<Order>, IEnumerable<OrderReadDTO>>(result);
+        }
+        else
+        {
+            throw CustomException.NotFoundException("User not found");
+        }
     }
 }

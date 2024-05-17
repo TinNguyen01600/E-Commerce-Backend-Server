@@ -167,35 +167,35 @@ public class SeedingData
     public static List<User> Users = GetUsers();
 
     // ------------------------------------------------------------------------------------------------------------------
-    public static List<Order> GetOrders()
-    {
-        return new List<Order>{
-            new Order(Users[1].Id, Status.completed),
-            new Order(Users[1].Id, Status.cancelled),
-            new Order(Users[2].Id, Status.pending),
-            new Order(Users[2].Id, Status.cancelled),
-            new Order(Users[3].Id, Status.delivered),
-            new Order(Users[3].Id, Status.processing),
-            new Order(Users[4].Id, Status.shipped),
-            new Order(Users[4].Id, Status.completed),
-            new Order(Users[5].Id, Status.delivered),
-            new Order(Users[5].Id, Status.delivered)
-        };
-    }
-    public static List<Order> Orders = GetOrders();
-    public static List<OrderProduct> GetOrderProducts()
-    {
-        var OrderProducts = new List<OrderProduct>();
-        for (int i = 0; i < Orders.Count(); i++)
-        {
-            for (int j = 0; j < 2; j++)
-            {
-                var orderProduct = new OrderProduct {ProductId = Products[i+j+random.Next(20)].Id, Quantity = random.Next(15)};
-                OrderProducts.Add(orderProduct);
-            }
-        }
-        return OrderProducts;
-    }
+    // public static List<Order> GetOrders()
+    // {
+    //     return new List<Order>{
+    //         new Order(Users[1].Id, Status.completed),
+    //         new Order(Users[1].Id, Status.cancelled),
+    //         new Order(Users[2].Id, Status.pending),
+    //         new Order(Users[2].Id, Status.cancelled),
+    //         new Order(Users[3].Id, Status.delivered),
+    //         new Order(Users[3].Id, Status.processing),
+    //         new Order(Users[4].Id, Status.shipped),
+    //         new Order(Users[4].Id, Status.completed),
+    //         new Order(Users[5].Id, Status.delivered),
+    //         new Order(Users[5].Id, Status.delivered)
+    //     };
+    // }
+    // public static List<Order> Orders = GetOrders();
+    // public static List<OrderProduct> GetOrderProducts()
+    // {
+    //     var OrderProducts = new List<OrderProduct>();
+    //     for (int i = 0; i < Orders.Count(); i++)
+    //     {
+    //         for (int j = 0; j < 2; j++)
+    //         {
+    //             var orderProduct = new OrderProduct {ProductId = Products[i+j+random.Next(20)].Id, Quantity = random.Next(15)};
+    //             OrderProducts.Add(orderProduct);
+    //         }
+    //     }
+    //     return OrderProducts;
+    // }
     // ------------------------------------------------------------------------------------------------------------------
     public static List<Review> GetReviews()
     {

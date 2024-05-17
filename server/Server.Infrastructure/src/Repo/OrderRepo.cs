@@ -25,7 +25,7 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
             {
                 foreach (var orderProduct in order.OrderProducts)
                 {
-                    var foundProduct = _products.First(product => product.Id == orderProduct.ProductId);
+                    var foundProduct = _products.First(product => product == orderProduct.Product);
                     if (foundProduct.Inventory >= orderProduct.Quantity)
                     {
                         Console.WriteLine($"BEFORE ____ {foundProduct.Inventory}");
@@ -66,6 +66,6 @@ public class OrderRepo : BaseRepo<Order>, IOrderRepo
 
     public async Task<IEnumerable<Order>> GetByUser(Guid userId)
     {
-        return _data.Include("User").Include(o => o.OrderProducts).ThenInclude(o => o.Product).Where(orders => orders.UserId == userId).ToArray();
+        return _data.Include("User").Include(o => o.OrderProducts).ThenInclude(o => o.Product).Where(orders => orders.User.Id == userId).ToArray();
     }
 }
