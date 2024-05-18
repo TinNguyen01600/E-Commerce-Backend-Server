@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Server.Core.src.Common;
 using Server.Service.src.DTO;
 using Server.Service.src.ServiceAbstract;
+using Server.Service.src.Shared;
 
 
 namespace Server.Controller.src.Controller
@@ -13,10 +14,12 @@ namespace Server.Controller.src.Controller
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IAuthorizationService _authorizationService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IAuthorizationService authorizationService)
         {
             _userService = userService;
+            _authorizationService = authorizationService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -63,27 +66,59 @@ namespace Server.Controller.src.Controller
         [HttpDelete("api/v1/user/{id}")]
         public async Task<bool> DeleteUserByIdAsync([FromRoute] Guid id)
         {
-            try
+            UserReadDTO foundUser = await _userService.GetOneById(id);
+            if (foundUser is null)
             {
-                return await _userService.DeleteOne(id);
-
+                throw CustomException.NotFoundException("User not found");
             }
-            catch (Exception ex)
+            else
             {
-                throw new Exception(ex.Message);
+                var authorizationResult = _authorizationService
+               .AuthorizeAsync(HttpContext.User, foundUser, "AdminOrOwnerAccount")
+               .GetAwaiter()
+               .GetResult();
+
+                if (authorizationResult.Succeeded)
+                {
+                    return await _userService.DeleteOne(id);
+                }
+                else if (User.Identity!.IsAuthenticated)
+                {
+                    throw CustomException.UnauthorizedException("Not authenticated");
+                }
+                else
+                {
+                    throw CustomException.UnauthorizedException("Not authorized");
+                }
             }
         }
         [HttpPatch("api/v1/user/{id}")]
         public async Task<UserReadDTO> UpdateUserByIdAsync([FromRoute] Guid id, [FromBody] UserUpdateDTO updateUser)
         {
-            try
+            UserReadDTO foundUser = await _userService.GetOneById(id);
+            if (foundUser is null)
             {
-                return await _userService.UpdateOne(id, updateUser);
-
+                throw CustomException.NotFoundException("User not found");
             }
-            catch (Exception ex)
+            else
             {
-                throw new Exception(ex.Message);
+                var authorizationResult = _authorizationService
+               .AuthorizeAsync(HttpContext.User, foundUser, "AdminOrOwnerAccount")
+               .GetAwaiter()
+               .GetResult();
+
+                if (authorizationResult.Succeeded)
+                {
+                    return await _userService.UpdateOne(id, updateUser);
+                }
+                else if (User.Identity!.IsAuthenticated)
+                {
+                    throw CustomException.UnauthorizedException("Not authenticated");
+                }
+                else
+                {
+                    throw CustomException.UnauthorizedException("Not authorized");
+                }
             }
         }
 

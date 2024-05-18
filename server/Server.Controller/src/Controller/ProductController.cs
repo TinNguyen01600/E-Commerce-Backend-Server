@@ -28,7 +28,7 @@ namespace Server.Controller.src.Controller
                 throw new Exception(ex.Message);
             }
         }
-        [HttpGet("api/v1/product/{id}")]
+        [HttpGet("api/v1/products/{id}")]
         public async Task<ProductReadDTO> GetProductByIdAsync([FromRoute] Guid id)
         {
             return await _productServices.GetProductById(id);
@@ -51,17 +51,17 @@ namespace Server.Controller.src.Controller
         {
             return await _productServices.GetMostPurchasedProductsAsync(top);
         }
-        [HttpPost("api/v1/product")]
+        [HttpPost("api/v1/products")]
         public async Task<ProductReadDTO> CreateProductAsync([FromBody] ProductCreateDTO product)
         {
             return await _productServices.CreateProduct(product);
         }
-        [HttpPatch("api/v1/product/{id}")]
+        [HttpPatch("api/v1/products/{id}")]
         public async Task<ProductReadDTO> UpdateProductAsync([FromRoute] Guid id, [FromBody] ProductUpdateDTO category)
         {
             return await _productServices.UpdateProduct(id, category);
         }
-        [HttpDelete("api/v1/product/{id}")]
+        [HttpDelete("api/v1/products/{id}")]
         public async Task<bool> DeleteProductAsync([FromRoute] Guid id)
         {
             return await _productServices.DeleteProduct(id);

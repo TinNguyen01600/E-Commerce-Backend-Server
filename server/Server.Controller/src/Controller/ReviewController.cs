@@ -13,9 +13,11 @@ namespace Server.Controller.src.Controller;
 public class ReviewController : ControllerBase
 {
     private readonly IReviewService _reviewService;
-    public ReviewController(IReviewService reviewService)
+    private readonly IAuthorizationService _authorizationService;
+    public ReviewController(IReviewService reviewService, IAuthorizationService authorizationService)
     {
         _reviewService = reviewService;
+        _authorizationService = authorizationService;
     }
 
     [HttpGet("/api/v1/reviews")]
@@ -47,20 +49,60 @@ public class ReviewController : ControllerBase
     [HttpPatch("/api/v1/reviews/{id}")]
     public async Task<ReviewReadDTO> UpdateReviewByIdAsync([FromRoute] Guid id, [FromBody] ReviewUpdateDTO reviewUpdateDto)
     {
-        ReviewReadDTO foundReview = await _reviewService.GetOneById(id);
+        ReviewReadDTO? foundReview = await _reviewService.GetOneById(id);
         if (foundReview is null)
         {
             throw CustomException.NotFoundException("Review not found");
         }
         else
         {
-            return await _reviewService.UpdateOne(id, reviewUpdateDto);
+            var authorizationResult = _authorizationService
+           .AuthorizeAsync(HttpContext.User, foundReview, "AdminOrOwnerReview")
+           .GetAwaiter()
+           .GetResult();
+
+            if (authorizationResult.Succeeded)
+            {
+                return await _reviewService.UpdateOne(id, reviewUpdateDto);
+            }
+            else if (User.Identity!.IsAuthenticated)
+            {
+                throw CustomException.UnauthorizedException("Not authenticated");
+            }
+            else
+            {
+                throw CustomException.UnauthorizedException("Not authorized");
+            }
         }
     }
 
     [HttpDelete("/api/v1/reviews/{id}")]
     public async Task<bool> DeleteReviewByIdAsync([FromRoute] Guid id)
     {
-        return await _reviewService.DeleteOne(id);
+        ReviewReadDTO? foundReview = await _reviewService.GetOneById(id);
+        if (foundReview is null)
+        {
+            throw CustomException.NotFoundException("Review not found");
+        }
+        else
+        {
+            var authorizationResult = _authorizationService
+           .AuthorizeAsync(HttpContext.User, foundReview, "AdminOrOwnerReview")
+           .GetAwaiter()
+           .GetResult();
+
+            if (authorizationResult.Succeeded)
+            {
+                return await _reviewService.DeleteOne(id);
+            }
+            else if (User.Identity!.IsAuthenticated)
+            {
+                throw CustomException.UnauthorizedException("Not authenticated");
+            }
+            else
+            {
+                throw CustomException.UnauthorizedException("Not authorized");
+            }
+        }
     }
 }
