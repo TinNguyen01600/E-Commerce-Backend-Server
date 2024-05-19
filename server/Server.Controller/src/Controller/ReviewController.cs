@@ -20,6 +20,7 @@ public class ReviewController : ControllerBase
         _authorizationService = authorizationService;
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpGet("/api/v1/reviews")]
     public async Task<IEnumerable<ReviewReadDTO>> GetAllReviewsAsync([FromQuery] QueryOptions options)
     {

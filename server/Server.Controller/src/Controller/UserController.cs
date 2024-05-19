@@ -36,7 +36,7 @@ namespace Server.Controller.src.Controller
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet("api/v1/users/{id}")]
         public async Task<UserReadDTO> GetUserByIdAsync([FromRoute] Guid id)
         {
@@ -155,8 +155,9 @@ namespace Server.Controller.src.Controller
         {
             return await _userService.EmailAvailable(email);
         }
-        [HttpPatch("api/v1/users/update-role/{id:guid}")]
+
         [Authorize(Roles = "Admin")]
+        [HttpPatch("api/v1/users/update-role/{id:guid}")]
         public async Task<UserReadDTO> UpdateRole([FromRoute] Guid id, [FromBody] UserRoleUpdateDTO userRoleUpdateDTO)
         {
             return await _userService.UpdateRole(id, userRoleUpdateDTO);

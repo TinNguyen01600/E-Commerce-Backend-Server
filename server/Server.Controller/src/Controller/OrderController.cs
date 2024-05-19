@@ -23,14 +23,15 @@ public class OrderController : ControllerBase
         _userService = userService;
     }
 
-    [HttpGet("api/v1/orders")]
     [Authorize(Roles = "Admin")]
+    [HttpGet("api/v1/orders")]
     public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersAsync([FromQuery] QueryOptions options)
     {
         return await _orderService.GetAll(options);
     }
-    [HttpGet("api/v1/orders/admin/{id}")]
+
     [Authorize(Roles = "Admin")]
+    [HttpGet("api/v1/orders/admin/{id}")]
     public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersByUserAsync([FromRoute] Guid id)
     {
         UserReadDTO foundUser = await _userService.GetOneById(id);
@@ -59,6 +60,7 @@ public class OrderController : ControllerBase
             }
         }
     }
+
     [HttpGet("api/v1/orders/{id}")]
     public async Task<OrderReadDTO> GetOrderByIdAsync([FromRoute] Guid id)
     {
@@ -87,22 +89,29 @@ public class OrderController : ControllerBase
             }
         }
     }
+
+    [Authorize(Roles = "Customer")]
     [HttpPost("api/v1/orders")]
     public async Task<OrderReadDTO> CreateOrderAsync([FromBody] OrderCreateDTO order)
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
         return await _orderService.CreateOne(Guid.Parse(userId), order);
     }
+
+    [Authorize(Roles = "Admin")]
     [HttpPatch("api/v1/orders/{id}")]
     public async Task<OrderReadDTO> UpdateOrderByIdAsync([FromRoute] Guid id, [FromBody] OrderUpdateDTO orderUpdateDto)
     {
         return await _orderService.UpdateOne(id, orderUpdateDto);
     }
+
+    [Authorize(Roles = "Admin")]
     [HttpDelete("api/v1/orders/{id}")]
     public async Task<bool> DeleteOrderByIdAsync([FromRoute] Guid id)
     {
         return await _orderService.DeleteOne(id);
     }
+
     [HttpPatch("api/v1/orders/cancel-order/{id:guid}")]
     public async Task<bool> CancelOrder([FromRoute] Guid id)
     {

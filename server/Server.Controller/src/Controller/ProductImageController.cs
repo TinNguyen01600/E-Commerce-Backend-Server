@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Core.src.Common;
 using Server.Service.src.DTO;
@@ -35,17 +36,22 @@ namespace Server.Controller.src.Controller
             return await _productImageService.GetOneById(id);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("api/v1/productsImage")] 
         public async Task<ProductImageReadDTO> CreateProductImageByIdAsync([FromBody] ProductImageCreateDTO productImg)
         {
             return await _productImageService.CreateOne(productImg);
         }
-        [HttpPatch("{id:guid}")]
+
+        [Authorize(Roles = "Admin")]
+        [HttpPatch("api/v1/productsImage/{id:guid}")]
         public async Task<ProductImageReadDTO> UpdateProductImageAsync([FromRoute] Guid id, [FromBody] ProductImageUpdateDTO category)
         {
             return await _productImageService.UpdateOne(id, category);
         }
-        [HttpDelete("{id:guid}")] 
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("api/v1/productsImage/{id:guid}")] 
         public async Task<bool> DeleteCategoryAsync([FromRoute] Guid id)
         {
             return await _productImageService.DeleteOne(id);

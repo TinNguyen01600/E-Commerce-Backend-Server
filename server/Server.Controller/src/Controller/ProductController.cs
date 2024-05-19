@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Core.src.Common;
 using Server.Service.src.DTO;
@@ -28,11 +29,13 @@ namespace Server.Controller.src.Controller
                 throw new Exception(ex.Message);
             }
         }
+
         [HttpGet("api/v1/products/{id}")]
         public async Task<ProductReadDTO> GetProductByIdAsync([FromRoute] Guid id)
         {
             return await _productServices.GetProductById(id);
         }
+
         [HttpGet("api/v1/products/category/{categoryId}")]
         public async Task<IEnumerable<ProductReadDTO>> GetAllProductsByCategoryAsync([FromRoute] Guid categoryId)
         {
@@ -46,21 +49,28 @@ namespace Server.Controller.src.Controller
                 throw new Exception(ex.Message);
             }
         }
-        [HttpGet("top/{topNumber:int}")]
+
+        [HttpGet("api/v1/products/top/{topNumber:int}")]
         public async Task<IEnumerable<ProductReadDTO>> GetMostPurchased([FromRoute] int top)
         {
             return await _productServices.GetMostPurchasedProductsAsync(top);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("api/v1/products")]
         public async Task<ProductReadDTO> CreateProductAsync([FromBody] ProductCreateDTO product)
         {
             return await _productServices.CreateProduct(product);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPatch("api/v1/products/{id}")]
         public async Task<ProductReadDTO> UpdateProductAsync([FromRoute] Guid id, [FromBody] ProductUpdateDTO category)
         {
             return await _productServices.UpdateProduct(id, category);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("api/v1/products/{id}")]
         public async Task<bool> DeleteProductAsync([FromRoute] Guid id)
         {

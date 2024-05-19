@@ -2,7 +2,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Core.src.Common;
-using Server.Core.src.Entity;
 using Server.Service.src.DTO;
 using Server.Service.src.ServiceAbstract.Authentication;
 
