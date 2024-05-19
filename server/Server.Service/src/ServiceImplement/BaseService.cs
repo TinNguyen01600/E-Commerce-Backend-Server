@@ -25,7 +25,7 @@ where TRepo : IBaseRepo<T>
         var r = await _repo.GetAllAsync(options);
         return _mapper.Map<IEnumerable<T>, IEnumerable<TReadDTO>>(r);
     }
-    async Task<TReadDTO> IBaseService<T, TReadDTO, TCreateDTO, TUpdateDTO>.CreateOne(TCreateDTO createObject)
+    public virtual async Task<TReadDTO> CreateOne(TCreateDTO createObject)
     {
         var result = await _repo.CreateOneAsync(_mapper.Map<TCreateDTO, T>(createObject));
         return _mapper.Map<T, TReadDTO>(result);

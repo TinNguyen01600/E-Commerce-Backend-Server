@@ -41,4 +41,8 @@ namespace Server.Service.src.DTO
             Avatar = avatar;
         }
     }
+    public class UserRoleUpdateDTO
+    {
+        public Role Role { get; set; }
+    }
 }
