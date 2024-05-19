@@ -30,6 +30,7 @@ namespace Server.Infrastructure.src.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasPostgresEnum<Role>();
+            modelBuilder.HasPostgresEnum<Status>();
 
             modelBuilder.Entity<User>(e =>
             {

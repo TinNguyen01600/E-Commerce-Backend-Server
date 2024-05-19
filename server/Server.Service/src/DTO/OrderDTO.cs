@@ -8,14 +8,14 @@ public class OrderReadDTO : BaseEntity
 {
     public UserReadDTO User { get; set; }
     public IEnumerable<OrderProductReadDTO> OrderProducts { get; set; }
-    public Status OrderStatus { get; set; }
+    public Status Status { get; set; }
 }
 public class OrderCreateDTO
 {
     public IEnumerable<OrderProductCreateDTO> OrderProducts { get; set; }
-    public Status OrderStatus { get; set; } = Status.pending;
+    public Status Status { get; set; } = Status.pending;
 }
 public class OrderUpdateDTO
 {
-    public Status OrderStatus { get; set; } = Status.pending;
+    public Status Status { get; set; } = Status.pending;
 }

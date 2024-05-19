@@ -1,1 +1,39 @@
+###
+# Create new order
+POST http://localhost:5074/api/v1/orders HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbmUuc21pdGhAbWFpbC5jb20iLCJuYW1laWQiOiI3OGUzZmI4Yi1jN2Y0LTRjYTUtOGE3MC1kNWZmZDBiOWM0NWEiLCJyb2xlIjoiQ3VzdG9tZXIiLCJVc2VySWQiOiI3OGUzZmI4Yi1jN2Y0LTRjYTUtOGE3MC1kNWZmZDBiOWM0NWEiLCJuYmYiOjE3MTYxNTA0NzQsImV4cCI6MTcxNjc1NTI3NCwiaWF0IjoxNzE2MTUwNDc0LCJpc3MiOiJ3ZWJkZW1vLmNvbSJ9.4X2q6xHu53mt9G2ZIHJLEaqWvkYwT8C3D1VZn9LMbzY
+Content-Type: application/json
+
+{
+  "orderProducts": [
+    {
+      "productId": "007b334c-b696-45f0-a39d-f617cff91e41",
+      "quantity": 2
+    },
+    {
+      "productId": "054687ca-b754-478c-82ed-3155080af537",
+      "quantity": 2
+    }
+  ],
+  "status": "pending"
+}
+
+###
+# Get all orders
 GET http://localhost:5074/api/v1/orders/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQG1haWwuY29tIiwibmFtZWlkIjoiMjhiYzkwNmMtM2VjZS00YTMyLTgwMTktNmUzN2JmN2JkMGY0Iiwicm9sZSI6IkFkbWluIiwiVXNlcklkIjoiMjhiYzkwNmMtM2VjZS00YTMyLTgwMTktNmUzN2JmN2JkMGY0IiwibmJmIjoxNzE2MTUwNTQ1LCJleHAiOjE3MTY3NTUzNDUsImlhdCI6MTcxNjE1MDU0NSwiaXNzIjoid2ViZGVtby5jb20ifQ.QfYygATXEd_Qz5cU59oMr6naIZq7jh9xuTXeU6MDllM
+
+###
+# Get 1 order by id
+GET http://localhost:5074/api/v1/orders/c39be0ae-1665-466f-bcb2-f72da8b3bf7b HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQG1haWwuY29tIiwibmFtZWlkIjoiMjhiYzkwNmMtM2VjZS00YTMyLTgwMTktNmUzN2JmN2JkMGY0Iiwicm9sZSI6IkFkbWluIiwiVXNlcklkIjoiMjhiYzkwNmMtM2VjZS00YTMyLTgwMTktNmUzN2JmN2JkMGY0IiwibmJmIjoxNzE2MTUwNTQ1LCJleHAiOjE3MTY3NTUzNDUsImlhdCI6MTcxNjE1MDU0NSwiaXNzIjoid2ViZGVtby5jb20ifQ.QfYygATXEd_Qz5cU59oMr6naIZq7jh9xuTXeU6MDllM
+
+###
+# Get all orders by 1 user
+GET http://localhost:5074/api/v1/orders/user/78e3fb8b-c7f4-4ca5-8a70-d5ffd0b9c45a HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQG1haWwuY29tIiwibmFtZWlkIjoiMjhiYzkwNmMtM2VjZS00YTMyLTgwMTktNmUzN2JmN2JkMGY0Iiwicm9sZSI6IkFkbWluIiwiVXNlcklkIjoiMjhiYzkwNmMtM2VjZS00YTMyLTgwMTktNmUzN2JmN2JkMGY0IiwibmJmIjoxNzE2MTUwNTQ1LCJleHAiOjE3MTY3NTUzNDUsImlhdCI6MTcxNjE1MDU0NSwiaXNzIjoid2ViZGVtby5jb20ifQ.QfYygATXEd_Qz5cU59oMr6naIZq7jh9xuTXeU6MDllM
+
+###
+# Delete order by id
+DELETE  http://localhost:5074/api/v1/orders/c39be0ae-1665-466f-bcb2-f72da8b3bf7b HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQG1haWwuY29tIiwibmFtZWlkIjoiMjhiYzkwNmMtM2VjZS00YTMyLTgwMTktNmUzN2JmN2JkMGY0Iiwicm9sZSI6IkFkbWluIiwiVXNlcklkIjoiMjhiYzkwNmMtM2VjZS00YTMyLTgwMTktNmUzN2JmN2JkMGY0IiwibmJmIjoxNzE2MTUwNTQ1LCJleHAiOjE3MTY3NTUzNDUsImlhdCI6MTcxNjE1MDU0NSwiaXNzIjoid2ViZGVtby5jb20ifQ.QfYygATXEd_Qz5cU59oMr6naIZq7jh9xuTXeU6MDllM

@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using Npgsql;
 using Server.Core.src.RepoAbstract;
 using Server.Core.src.ValueObject;
+using Server.Infrastructure.src.Authorization;
 using Server.Infrastructure.src.Database;
 using Server.Infrastructure.src.Middleware;
 using Server.Infrastructure.src.Repo;
@@ -24,6 +25,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// config authorization
+builder.Services.AddAuthorization(policy =>
+{
+    policy.AddPolicy("AdminOrOwnerOrder", policy => policy.Requirements.Add(new AdminOrOwnerOrderRequirement()));
+    policy.AddPolicy("AdminOrOwnerReview", policy => policy.Requirements.Add(new AdminOrOwnerReviewRequirement()));
+    policy.AddPolicy("AdminOrOwnerAccount", policy => policy.Requirements.Add(new AdminOrOwnerAccountRequirement()));
+});
 
 //add all controllers
 builder.Services.AddControllers();

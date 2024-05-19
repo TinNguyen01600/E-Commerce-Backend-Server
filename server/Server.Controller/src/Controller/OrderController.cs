@@ -31,7 +31,7 @@ public class OrderController : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("api/v1/orders/admin/{id}")]
+    [HttpGet("api/v1/orders/user/{id}")]
     public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersByUserAsync([FromRoute] Guid id)
     {
         UserReadDTO foundUser = await _userService.GetOneById(id);
@@ -41,26 +41,11 @@ public class OrderController : ControllerBase
         }
         else
         {
-            var authorizationResult = _authorizationService
-           .AuthorizeAsync(HttpContext.User, foundUser, "AdminOrOwnerAccount")
-           .GetAwaiter()
-           .GetResult();
-
-            if (authorizationResult.Succeeded)
-            {
-                return await _orderService.GetByUser(id);
-            }
-            else if (User.Identity!.IsAuthenticated)
-            {
-                throw CustomException.UnauthorizedException("Not authenticated");
-            }
-            else
-            {
-                throw CustomException.UnauthorizedException("Not authorized");
-            }
+            return await _orderService.GetByUser(id);
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpGet("api/v1/orders/{id}")]
     public async Task<OrderReadDTO> GetOrderByIdAsync([FromRoute] Guid id)
     {
@@ -71,22 +56,7 @@ public class OrderController : ControllerBase
         }
         else
         {
-            var authorizationResult = _authorizationService.AuthorizeAsync(HttpContext.User, foundOrder, "AdminOrOwnerOrder")
-                .GetAwaiter()
-                .GetResult();
-
-            if (authorizationResult.Succeeded)
-            {
-                return await _orderService.GetOneById(id);
-            }
-            else if (User.Identity!.IsAuthenticated)
-            {
-                throw CustomException.UnauthorizedException("Not authenticated");
-            }
-            else
-            {
-                throw CustomException.UnauthorizedException("Not authorized");
-            }
+            return await _orderService.GetOneById(id);
         }
     }
 
@@ -122,23 +92,7 @@ public class OrderController : ControllerBase
         }
         else
         {
-            var authorizationResult = _authorizationService
-           .AuthorizeAsync(HttpContext.User, foundOrder, "AdminOrOwnerOrder")
-           .GetAwaiter()
-           .GetResult();
-
-            if (authorizationResult.Succeeded)
-            {
-                return await _orderService.CancelOrder(id);
-            }
-            else if (User.Identity!.IsAuthenticated)
-            {
-                throw CustomException.UnauthorizedException("Not authenticated");
-            }
-            else
-            {
-                throw CustomException.UnauthorizedException("Not authorized");
-            }
+            return await _orderService.CancelOrder(id);
         }
     }
 }
