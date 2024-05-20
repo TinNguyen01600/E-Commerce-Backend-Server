@@ -31,7 +31,7 @@ where TRepo : IBaseRepo<T>
         return _mapper.Map<T, TReadDTO>(result);
     }
 
-    async Task<bool> IBaseService<T, TReadDTO, TCreateDTO, TUpdateDTO>.DeleteOne(Guid id)
+    public virtual async Task<bool> DeleteOne(Guid id)
     {
         var foundItem = await _repo.GetOneByIdAsync(id);
         if (foundItem is not null)
@@ -45,7 +45,7 @@ where TRepo : IBaseRepo<T>
         }
     }
 
-    async Task<TReadDTO> IBaseService<T, TReadDTO, TCreateDTO, TUpdateDTO>.GetOneById(Guid id)
+    public virtual async Task<TReadDTO> GetOneById(Guid id)
     {
         var result = await _repo.GetOneByIdAsync(id);
         if (result is not null)
@@ -58,7 +58,7 @@ where TRepo : IBaseRepo<T>
         }
     }
 
-    async Task<TReadDTO> IBaseService<T, TReadDTO, TCreateDTO, TUpdateDTO>.UpdateOne(Guid id, TUpdateDTO updateObject)
+    public virtual async Task<TReadDTO> UpdateOne(Guid id, TUpdateDTO updateObject)
     {
         var foundItem = _repo.GetOneByIdAsync(id);
         if (foundItem is not null)
