@@ -11,6 +11,7 @@ using Server.Service.src.Shared;
 namespace Server.Controller.src.Controller
 {
     [ApiController]
+    [Route("api/v1/users")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -23,48 +24,27 @@ namespace Server.Controller.src.Controller
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("api/v1/users")]
-        public async Task<IEnumerable<UserReadDTO>> GetAllUsersAsync([FromQuery] QueryOptions options)
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<UserReadDTO>>> GetAllUsersAsync([FromQuery] QueryOptions options)
         {
-            try
-            {
-                return await _userService.GetAll(options);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return Ok(await _userService.GetAll(options));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("api/v1/users/{id}")]
-        public async Task<UserReadDTO> GetUserByIdAsync([FromRoute] Guid id)
+        [HttpGet("/{id}")]
+        public async Task<ActionResult<UserReadDTO>> GetUserByIdAsync([FromRoute] Guid id)
         {
-            try
-            {
-                return await _userService.GetOneById(id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return Ok(await _userService.GetOneById(id));
         }
-        [HttpPost("api/v1/users/")]
-        public async Task<UserReadDTO> CreateCustomerAsync([FromBody] UserCreateDTO user)
+        [HttpPost()]
+        public async Task<ActionResult<UserReadDTO>> CreateCustomerAsync([FromBody] UserCreateDTO user)
         {
-            try
-            {
-                return await _userService.CreateOne(user);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return CreatedAtAction(nameof(CreateCustomerAsync), await _userService.CreateOne(user));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("api/v1/users/{id}")]
-        public async Task<bool> DeleteUserByIdAsync([FromRoute] Guid id)
+        [HttpDelete("/{id}")]
+        public async Task<ActionResult<bool>> DeleteUserByIdAsync([FromRoute] Guid id)
         {
             UserReadDTO foundUser = await _userService.GetOneById(id);
             if (foundUser is null)
@@ -73,27 +53,11 @@ namespace Server.Controller.src.Controller
             }
             else
             {
-                var authorizationResult = _authorizationService
-               .AuthorizeAsync(HttpContext.User, foundUser, "AdminOrOwnerAccount")
-               .GetAwaiter()
-               .GetResult();
-
-                if (authorizationResult.Succeeded)
-                {
-                    return await _userService.DeleteOne(id);
-                }
-                else if (User.Identity!.IsAuthenticated)
-                {
-                    throw CustomException.UnauthorizedException("Not authenticated");
-                }
-                else
-                {
-                    throw CustomException.UnauthorizedException("Not authorized");
-                }
+                return Ok(await _userService.DeleteOne(id));
             }
         }
-        [HttpPatch("api/v1/users/{id}")]
-        public async Task<UserReadDTO> UpdateUserByIdAsync([FromRoute] Guid id, [FromBody] UserUpdateDTO updateUser)
+        [HttpPatch("/{id}")]
+        public async Task<ActionResult<UserReadDTO>> UpdateUserByIdAsync([FromRoute] Guid id, [FromBody] UserUpdateDTO updateUser)
         {
             UserReadDTO foundUser = await _userService.GetOneById(id);
             if (foundUser is null)
@@ -102,27 +66,11 @@ namespace Server.Controller.src.Controller
             }
             else
             {
-                var authorizationResult = _authorizationService
-               .AuthorizeAsync(HttpContext.User, foundUser, "AdminOrOwnerAccount")
-               .GetAwaiter()
-               .GetResult();
-
-                if (authorizationResult.Succeeded)
-                {
-                    return await _userService.UpdateOne(id, updateUser);
-                }
-                else if (User.Identity!.IsAuthenticated)
-                {
-                    throw CustomException.UnauthorizedException("Not authenticated");
-                }
-                else
-                {
-                    throw CustomException.UnauthorizedException("Not authorized");
-                }
+                return Ok(await _userService.UpdateOne(id, updateUser));
             }
         }
-        [HttpPatch("api/v1/users/update-password/{id:guid}")]
-        public async Task<bool> UpdatePassword([FromRoute] Guid id, [FromBody] PasswordChangeForm passwordChangeForm)
+        [HttpPatch("/update-password/{id:guid}")]
+        public async Task<ActionResult<bool>> UpdatePassword([FromRoute] Guid id, [FromBody] PasswordChangeForm passwordChangeForm)
         {
             UserReadDTO foundUser = await _userService.GetOneById(id);
             if (foundUser is null)
@@ -131,36 +79,20 @@ namespace Server.Controller.src.Controller
             }
             else
             {
-                var authorizationResult = _authorizationService
-               .AuthorizeAsync(HttpContext.User, foundUser, "AdminOrOwnerAccount")
-               .GetAwaiter()
-               .GetResult();
-
-                if (authorizationResult.Succeeded)
-                {
-                    return await _userService.UpdatePassword(passwordChangeForm, id);
-                }
-                else if (User.Identity!.IsAuthenticated)
-                {
-                    throw CustomException.UnauthorizedException("Not authenticated");
-                }
-                else
-                {
-                    throw CustomException.UnauthorizedException("Not authorized");
-                }
+                return Ok(await _userService.UpdatePassword(passwordChangeForm, id));
             }
         }
-        [HttpPost("api/v1/users/email-avaiable")]
-        public async Task<bool> EmailAvailable([FromBody] string email)
+        [HttpPost("/email-avaiable")]
+        public async Task<ActionResult<bool>> EmailAvailable([FromBody] string email)
         {
-            return await _userService.EmailAvailable(email);
+            return Ok(await _userService.EmailAvailable(email));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPatch("api/v1/users/update-role/{id:guid}")]
-        public async Task<UserReadDTO> UpdateRole([FromRoute] Guid id, [FromBody] UserRoleUpdateDTO userRoleUpdateDTO)
+        [HttpPatch("/update-role/{id}")]
+        public async Task<ActionResult<UserReadDTO>> UpdateRole([FromRoute] Guid id, [FromBody] UserRoleUpdateDTO userRoleUpdateDTO)
         {
-            return await _userService.UpdateRole(id, userRoleUpdateDTO);
+            return Ok(await _userService.UpdateRole(id, userRoleUpdateDTO));
         }
     }
 }

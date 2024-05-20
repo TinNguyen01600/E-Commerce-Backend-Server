@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Server.Controller.src.Controller;
 
 [ApiController]
+[Route("/api/v1/reviews")]
 public class ReviewController : ControllerBase
 {
     private readonly IReviewService _reviewService;
@@ -21,34 +22,34 @@ public class ReviewController : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("/api/v1/reviews")]
-    public async Task<IEnumerable<ReviewReadDTO>> GetAllReviewsAsync([FromQuery] QueryOptions options)
+    [HttpGet()]
+    public async Task<ActionResult<IEnumerable<ReviewReadDTO>>> GetAllReviewsAsync([FromQuery] QueryOptions options)
     {
-        return await _reviewService.GetAll(options);
+        return Ok(await _reviewService.GetAll(options));
     }
 
-    [HttpGet("/api/v1/reviews/product/{id}")]
-    public async Task<IEnumerable<ReviewReadDTO>> GetAllReviewsByProductsAsync([FromRoute] Guid id)
+    [HttpGet("/product/{id}")]
+    public async Task<ActionResult<IEnumerable<ReviewReadDTO>>> GetAllReviewsByProductsAsync([FromRoute] Guid id)
     {
-        return await _reviewService.GetByProduct(id);
+        return Ok(await _reviewService.GetByProduct(id));
     }
 
-    [HttpGet("/api/v1/reviews/{id}")]
-    public async Task<ReviewReadDTO> GetReviewByIdAsync([FromRoute] Guid id)
+    [HttpGet("/{id}")]
+    public async Task<ActionResult<ReviewReadDTO>> GetReviewByIdAsync([FromRoute] Guid id)
     {
-        return await _reviewService.GetOneById(id);
+        return Ok(await _reviewService.GetOneById(id));
     }
 
     [Authorize(Roles = "Customer")]
-    [HttpPost("/api/v1/reviews")]
-    public async Task<ReviewReadDTO> CreateReviewAsync([FromBody] ReviewCreateDTO review)
+    [HttpPost()]
+    public async Task<ActionResult<ReviewReadDTO>> CreateReviewAsync([FromBody] ReviewCreateDTO review)
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-        return await _reviewService.CreateOne(Guid.Parse(userId), review);
+        return CreatedAtAction(nameof(CreateReviewAsync), await _reviewService.CreateOne(Guid.Parse(userId), review));
     }
 
-    [HttpPatch("/api/v1/reviews/{id}")]
-    public async Task<ReviewReadDTO> UpdateReviewByIdAsync([FromRoute] Guid id, [FromBody] ReviewUpdateDTO reviewUpdateDto)
+    [HttpPatch("/{id}")]
+    public async Task<ActionResult<ReviewReadDTO>> UpdateReviewByIdAsync([FromRoute] Guid id, [FromBody] ReviewUpdateDTO reviewUpdateDto)
     {
         ReviewReadDTO? foundReview = await _reviewService.GetOneById(id);
         if (foundReview is null)
@@ -57,28 +58,12 @@ public class ReviewController : ControllerBase
         }
         else
         {
-            var authorizationResult = _authorizationService
-           .AuthorizeAsync(HttpContext.User, foundReview, "AdminOrOwnerReview")
-           .GetAwaiter()
-           .GetResult();
-
-            if (authorizationResult.Succeeded)
-            {
-                return await _reviewService.UpdateOne(id, reviewUpdateDto);
-            }
-            else if (User.Identity!.IsAuthenticated)
-            {
-                throw CustomException.UnauthorizedException("Not authenticated");
-            }
-            else
-            {
-                throw CustomException.UnauthorizedException("Not authorized");
-            }
+            return Ok(await _reviewService.UpdateOne(id, reviewUpdateDto));
         }
     }
 
-    [HttpDelete("/api/v1/reviews/{id}")]
-    public async Task<bool> DeleteReviewByIdAsync([FromRoute] Guid id)
+    [HttpDelete("/{id}")]
+    public async Task<ActionResult<bool>> DeleteReviewByIdAsync([FromRoute] Guid id)
     {
         ReviewReadDTO? foundReview = await _reviewService.GetOneById(id);
         if (foundReview is null)
@@ -87,23 +72,7 @@ public class ReviewController : ControllerBase
         }
         else
         {
-            var authorizationResult = _authorizationService
-           .AuthorizeAsync(HttpContext.User, foundReview, "AdminOrOwnerReview")
-           .GetAwaiter()
-           .GetResult();
-
-            if (authorizationResult.Succeeded)
-            {
-                return await _reviewService.DeleteOne(id);
-            }
-            else if (User.Identity!.IsAuthenticated)
-            {
-                throw CustomException.UnauthorizedException("Not authenticated");
-            }
-            else
-            {
-                throw CustomException.UnauthorizedException("Not authorized");
-            }
+            return Ok(await _reviewService.DeleteOne(id));
         }
     }
 }

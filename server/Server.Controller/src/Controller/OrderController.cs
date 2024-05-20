@@ -10,6 +10,7 @@ using Server.Service.src.Shared;
 namespace Server.Controller.src.Controller;
 
 [ApiController]
+[Route("api/v1/orders")]
 public class OrderController : ControllerBase
 {
     private readonly IAuthorizationService _authorizationService;
@@ -24,15 +25,15 @@ public class OrderController : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("api/v1/orders")]
-    public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersAsync([FromQuery] QueryOptions options)
+    [HttpGet()]
+    public async Task<ActionResult<IEnumerable<OrderReadDTO>>> GetAllOrdersAsync([FromQuery] QueryOptions options)
     {
-        return await _orderService.GetAll(options);
+        return Ok(await _orderService.GetAll(options));
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("api/v1/orders/user/{id}")]
-    public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersByUserAsync([FromRoute] Guid id)
+    [HttpGet("/user/{id}")]
+    public async Task<ActionResult<IEnumerable<OrderReadDTO>>> GetAllOrdersByUserAsync([FromRoute] Guid id)
     {
         UserReadDTO foundUser = await _userService.GetOneById(id);
         if (foundUser is null)
@@ -41,13 +42,13 @@ public class OrderController : ControllerBase
         }
         else
         {
-            return await _orderService.GetByUser(id);
+            return Ok(await _orderService.GetByUser(id));
         }
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("api/v1/orders/{id}")]
-    public async Task<OrderReadDTO> GetOrderByIdAsync([FromRoute] Guid id)
+    [HttpGet("/{id}")]
+    public async Task<ActionResult<OrderReadDTO>> GetOrderByIdAsync([FromRoute] Guid id)
     {
         OrderReadDTO? foundOrder = await _orderService.GetOneById(id);
         if (foundOrder is null)
@@ -56,34 +57,34 @@ public class OrderController : ControllerBase
         }
         else
         {
-            return await _orderService.GetOneById(id);
+            return Ok(await _orderService.GetOneById(id));
         }
     }
 
     [Authorize(Roles = "Customer")]
-    [HttpPost("api/v1/orders")]
-    public async Task<OrderReadDTO> CreateOrderAsync([FromBody] OrderCreateDTO order)
+    [HttpPost()]
+    public async Task<ActionResult<OrderReadDTO>> CreateOrderAsync([FromBody] OrderCreateDTO order)
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-        return await _orderService.CreateOne(Guid.Parse(userId), order);
+        return CreatedAtAction(nameof(CreateOrderAsync), await _orderService.CreateOne(Guid.Parse(userId), order));
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpPatch("api/v1/orders/{id}")]
-    public async Task<OrderReadDTO> UpdateOrderByIdAsync([FromRoute] Guid id, [FromBody] OrderUpdateDTO orderUpdateDto)
+    [HttpPatch("/{id}")]
+    public async Task<ActionResult<OrderReadDTO>> UpdateOrderByIdAsync([FromRoute] Guid id, [FromBody] OrderUpdateDTO orderUpdateDto)
     {
-        return await _orderService.UpdateOne(id, orderUpdateDto);
+        return Ok(await _orderService.UpdateOne(id, orderUpdateDto));
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpDelete("api/v1/orders/{id}")]
-    public async Task<bool> DeleteOrderByIdAsync([FromRoute] Guid id)
+    [HttpDelete("/{id}")]
+    public async Task<ActionResult<bool>> DeleteOrderByIdAsync([FromRoute] Guid id)
     {
-        return await _orderService.DeleteOne(id);
+        return Ok(await _orderService.DeleteOne(id));
     }
 
-    [HttpPatch("api/v1/orders/cancel-order/{id:guid}")]
-    public async Task<bool> CancelOrder([FromRoute] Guid id)
+    [HttpPatch("/cancel-order/{id:guid}")]
+    public async Task<ActionResult<bool>> CancelOrder([FromRoute] Guid id)
     {
         OrderReadDTO? foundOrder = await _orderService.GetOneById(id);
         if (foundOrder is null)
@@ -92,7 +93,7 @@ public class OrderController : ControllerBase
         }
         else
         {
-            return await _orderService.CancelOrder(id);
+            return Ok(await _orderService.CancelOrder(id));
         }
     }
 }

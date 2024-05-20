@@ -7,6 +7,7 @@ using Server.Service.src.ServiceAbstract;
 namespace Server.Controller.src.Controller
 {
     [ApiController]
+    [Route("api/v1/productsImage")]
     public class ProductImageController : ControllerBase
     {
         private readonly IProductImageService _productImageService;
@@ -16,45 +17,37 @@ namespace Server.Controller.src.Controller
             _productImageService = productImageService;
         }
 
-        [HttpGet("api/v1/productsImage")] 
-        public async Task<IEnumerable<ProductImageReadDTO>> GetAllProductImagesAsync([FromQuery] QueryOptions options)
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<ProductImageReadDTO>>> GetAllProductImagesAsync([FromQuery] QueryOptions options)
         {
-            Console.WriteLine("GetAllCategoriesAsync");
-            try
-            {
-                return await _productImageService.GetAll(options);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return Ok(await _productImageService.GetAll(options));
         }
 
-        [HttpGet("api/v1/productsImage/{id}")] 
-        public async Task<ProductImageReadDTO> GetProductImageByIdAsync([FromRoute] Guid id)
+        [HttpGet("/{id}")]
+        public async Task<ActionResult<ProductImageReadDTO>> GetProductImageByIdAsync([FromRoute] Guid id)
         {
-            return await _productImageService.GetOneById(id);
+            return Ok(await _productImageService.GetOneById(id));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("api/v1/productsImage")] 
-        public async Task<ProductImageReadDTO> CreateProductImageByIdAsync([FromBody] ProductImageCreateDTO productImg)
+        [HttpPost()]
+        public async Task<ActionResult<ProductImageReadDTO>> CreateProductImageByIdAsync([FromBody] ProductImageCreateDTO productImg)
         {
-            return await _productImageService.CreateOne(productImg);
+            return Ok(await _productImageService.CreateOne(productImg));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPatch("api/v1/productsImage/{id:guid}")]
-        public async Task<ProductImageReadDTO> UpdateProductImageAsync([FromRoute] Guid id, [FromBody] ProductImageUpdateDTO category)
+        [HttpPatch("/{id}")]
+        public async Task<ActionResult<ProductImageReadDTO>> UpdateProductImageAsync([FromRoute] Guid id, [FromBody] ProductImageUpdateDTO category)
         {
-            return await _productImageService.UpdateOne(id, category);
+            return Ok(await _productImageService.UpdateOne(id, category));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("api/v1/productsImage/{id:guid}")] 
-        public async Task<bool> DeleteCategoryAsync([FromRoute] Guid id)
+        [HttpDelete("/{id}")]
+        public async Task<ActionResult<bool>> DeleteCategoryAsync([FromRoute] Guid id)
         {
-            return await _productImageService.DeleteOne(id);
+            return Ok(await _productImageService.DeleteOne(id));
         }
     }
 }

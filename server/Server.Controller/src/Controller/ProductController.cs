@@ -7,6 +7,7 @@ using Server.Service.src.ServiceAbstract;
 namespace Server.Controller.src.Controller
 {
     [ApiController]
+    [Route("api/v1/products")]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productServices;
@@ -16,65 +17,49 @@ namespace Server.Controller.src.Controller
             _productServices = productService;
         }
 
-        [HttpGet("api/v1/products")]
-        public async Task<IEnumerable<ProductReadDTO>> GetAllProductsAsync([FromQuery] QueryOptions options)
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<ProductReadDTO>>> GetAllProductsAsync([FromQuery] QueryOptions options)
         {
-            Console.WriteLine("GetAllProductsAsync");
-            try
-            {
-                return await _productServices.GetAllProductsAsync(options);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return Ok(await _productServices.GetAllProductsAsync(options));
         }
 
-        [HttpGet("api/v1/products/{id}")]
-        public async Task<ProductReadDTO> GetProductByIdAsync([FromRoute] Guid id)
+        [HttpGet("/{id}")]
+        public async Task<ActionResult<ProductReadDTO>> GetProductByIdAsync([FromRoute] Guid id)
         {
-            return await _productServices.GetProductById(id);
+            return Ok(await _productServices.GetProductById(id));
         }
 
-        [HttpGet("api/v1/products/category/{categoryId}")]
-        public async Task<IEnumerable<ProductReadDTO>> GetAllProductsByCategoryAsync([FromRoute] Guid categoryId)
+        [HttpGet("/category/{categoryId}")]
+        public async Task<ActionResult<IEnumerable<ProductReadDTO>>> GetAllProductsByCategoryAsync([FromRoute] Guid categoryId)
         {
-            Console.WriteLine("GetAllProductsByCategoryAsync");
-            try
-            {
-                return await _productServices.GetAllProductsByCategoryAsync(categoryId);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return Ok(await _productServices.GetAllProductsByCategoryAsync(categoryId));
         }
 
-        [HttpGet("api/v1/products/top/{topNumber:int}")]
-        public async Task<IEnumerable<ProductReadDTO>> GetMostPurchased([FromRoute] int top)
+        [HttpGet("/top/{topNumber:int}")]
+        public async Task<ActionResult<IEnumerable<ProductReadDTO>>> GetMostPurchased([FromRoute] int top)
         {
-            return await _productServices.GetMostPurchasedProductsAsync(top);
+            return Ok(await _productServices.GetMostPurchasedProductsAsync(top));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("api/v1/products")]
-        public async Task<ProductReadDTO> CreateProductAsync([FromBody] ProductCreateDTO product)
+        [HttpPost()]
+        public async Task<ActionResult<ProductReadDTO>> CreateProductAsync([FromBody] ProductCreateDTO product)
         {
-            return await _productServices.CreateProduct(product);
+            return CreatedAtAction(nameof(CreateProductAsync), await _productServices.CreateProduct(product));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPatch("api/v1/products/{id}")]
-        public async Task<ProductReadDTO> UpdateProductAsync([FromRoute] Guid id, [FromBody] ProductUpdateDTO category)
+        [HttpPatch("/{id}")]
+        public async Task<ActionResult<ProductReadDTO>> UpdateProductAsync([FromRoute] Guid id, [FromBody] ProductUpdateDTO category)
         {
-            return await _productServices.UpdateProduct(id, category);
+            return Ok(await _productServices.UpdateProduct(id, category));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("api/v1/products/{id}")]
-        public async Task<bool> DeleteProductAsync([FromRoute] Guid id)
+        [HttpDelete("/{id}")]
+        public async Task<ActionResult<bool>> DeleteProductAsync([FromRoute] Guid id)
         {
-            return await _productServices.DeleteProduct(id);
+            return Ok(await _productServices.DeleteProduct(id));
         }
     }
 }
