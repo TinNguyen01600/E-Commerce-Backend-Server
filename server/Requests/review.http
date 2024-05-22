@@ -15,6 +15,7 @@ GET http://localhost:5074/api/v1/reviews/product/0042d990-0d1b-4b1a-a266-c7fe7f5
 # GET http://localhost:5074/api/v1/products/category/1fdf8fc7-6a70-4db3-a181-4406579258af HTTP/1.1
 
 ###
+# Create review
 POST http://localhost:5074/api/v1/reviews HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphbmUuc21pdGhAbWFpbC5jb20iLCJuYW1laWQiOiI1MmY4ZWMzZi04MTFlLTQ4YjgtOTMzYS0yMzY5YjA1YjMwZDAiLCJyb2xlIjoiQ3VzdG9tZXIiLCJVc2VySWQiOiI1MmY4ZWMzZi04MTFlLTQ4YjgtOTMzYS0yMzY5YjA1YjMwZDAiLCJuYmYiOjE3MTU3NjgyNTMsImV4cCI6MTcxNjM3MzA1MywiaWF0IjoxNzE1NzY4MjUzLCJpc3MiOiJ3ZWJkZW1vLmNvbSJ9.TJZjHB6TndWEwII0B2zFSe0OoNTCwS4vN2D5KzqmTHQ

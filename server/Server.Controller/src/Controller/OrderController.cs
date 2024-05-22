@@ -32,7 +32,7 @@ public class OrderController : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("/user/{id}")]
+    [HttpGet("user/{id}")]
     public async Task<ActionResult<IEnumerable<OrderReadDTO>>> GetAllOrdersByUserAsync([FromRoute] Guid id)
     {
         UserReadDTO foundUser = await _userService.GetOneById(id);
@@ -47,7 +47,7 @@ public class OrderController : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<OrderReadDTO>> GetOrderByIdAsync([FromRoute] Guid id)
     {
         OrderReadDTO? foundOrder = await _orderService.GetOneById(id);
@@ -70,20 +70,20 @@ public class OrderController : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpPatch("/{id}")]
+    [HttpPatch("{id}")]
     public async Task<ActionResult<OrderReadDTO>> UpdateOrderByIdAsync([FromRoute] Guid id, [FromBody] OrderUpdateDTO orderUpdateDto)
     {
         return Ok(await _orderService.UpdateOne(id, orderUpdateDto));
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpDelete("/{id}")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult<bool>> DeleteOrderByIdAsync([FromRoute] Guid id)
     {
         return Ok(await _orderService.DeleteOne(id));
     }
 
-    [HttpPatch("/cancel-order/{id:guid}")]
+    [HttpPatch("cancel-order/{id:guid}")]
     public async Task<ActionResult<bool>> CancelOrder([FromRoute] Guid id)
     {
         OrderReadDTO? foundOrder = await _orderService.GetOneById(id);

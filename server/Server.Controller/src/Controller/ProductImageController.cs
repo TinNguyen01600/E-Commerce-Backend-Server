@@ -23,7 +23,7 @@ namespace Server.Controller.src.Controller
             return Ok(await _productImageService.GetAll(options));
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ProductImageReadDTO>> GetProductImageByIdAsync([FromRoute] Guid id)
         {
             return Ok(await _productImageService.GetOneById(id));
@@ -37,14 +37,14 @@ namespace Server.Controller.src.Controller
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPatch("/{id}")]
+        [HttpPatch("{id}")]
         public async Task<ActionResult<ProductImageReadDTO>> UpdateProductImageAsync([FromRoute] Guid id, [FromBody] ProductImageUpdateDTO category)
         {
             return Ok(await _productImageService.UpdateOne(id, category));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteCategoryAsync([FromRoute] Guid id)
         {
             return Ok(await _productImageService.DeleteOne(id));

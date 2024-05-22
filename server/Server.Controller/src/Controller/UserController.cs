@@ -31,7 +31,7 @@ namespace Server.Controller.src.Controller
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<UserReadDTO>> GetUserByIdAsync([FromRoute] Guid id)
         {
             return Ok(await _userService.GetOneById(id));
@@ -43,7 +43,7 @@ namespace Server.Controller.src.Controller
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteUserByIdAsync([FromRoute] Guid id)
         {
             UserReadDTO foundUser = await _userService.GetOneById(id);
@@ -56,7 +56,7 @@ namespace Server.Controller.src.Controller
                 return Ok(await _userService.DeleteOne(id));
             }
         }
-        [HttpPatch("/{id}")]
+        [HttpPatch("{id}")]
         public async Task<ActionResult<UserReadDTO>> UpdateUserByIdAsync([FromRoute] Guid id, [FromBody] UserUpdateDTO updateUser)
         {
             UserReadDTO foundUser = await _userService.GetOneById(id);
@@ -69,7 +69,7 @@ namespace Server.Controller.src.Controller
                 return Ok(await _userService.UpdateOne(id, updateUser));
             }
         }
-        [HttpPatch("/update-password/{id:guid}")]
+        [HttpPatch("update-password/{id:guid}")]
         public async Task<ActionResult<bool>> UpdatePassword([FromRoute] Guid id, [FromBody] PasswordChangeForm passwordChangeForm)
         {
             UserReadDTO foundUser = await _userService.GetOneById(id);
@@ -82,14 +82,14 @@ namespace Server.Controller.src.Controller
                 return Ok(await _userService.UpdatePassword(passwordChangeForm, id));
             }
         }
-        [HttpPost("/email-avaiable")]
+        [HttpPost("email-avaiable")]
         public async Task<ActionResult<bool>> EmailAvailable([FromBody] string email)
         {
             return Ok(await _userService.EmailAvailable(email));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPatch("/update-role/{id}")]
+        [HttpPatch("update-role/{id}")]
         public async Task<ActionResult<UserReadDTO>> UpdateRole([FromRoute] Guid id, [FromBody] UserRoleUpdateDTO userRoleUpdateDTO)
         {
             return Ok(await _userService.UpdateRole(id, userRoleUpdateDTO));

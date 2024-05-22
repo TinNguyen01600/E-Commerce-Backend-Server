@@ -23,7 +23,7 @@ namespace Server.Controller.src.Controller
             return Ok(await _categoryServices.GetAll(options));
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<CategoryReadDTO>> GetCategoryByIdAsync([FromRoute] Guid id)
         {
             return Ok(await _categoryServices.GetOneById(id));
@@ -36,14 +36,14 @@ namespace Server.Controller.src.Controller
             return CreatedAtAction(nameof(CreateCategoryAsync), await _categoryServices.CreateOne(category));
         }
 
-        [HttpPatch("/{id}")]
+        [HttpPatch("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CategoryReadDTO>> UpdateCategoryAsync([FromRoute] Guid id, [FromBody] CategoryUpdateDTO category)
         {
             return Ok(await _categoryServices.UpdateOne(id, category));
         }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> DeleteCategoryAsync([FromRoute] Guid id)
         {

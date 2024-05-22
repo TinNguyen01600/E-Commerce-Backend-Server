@@ -108,6 +108,18 @@ builder.Services.AddTransient<ExceptionHanlerMiddleware>();
 /// add automapper dependency injection
 builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -119,6 +131,8 @@ app.UseAuthorization();
 app.UseMiddleware<ExceptionHanlerMiddleware>();
 
 app.MapControllers();
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 

@@ -28,13 +28,13 @@ public class ReviewController : ControllerBase
         return Ok(await _reviewService.GetAll(options));
     }
 
-    [HttpGet("/product/{id}")]
+    [HttpGet("product/{id}")]
     public async Task<ActionResult<IEnumerable<ReviewReadDTO>>> GetAllReviewsByProductsAsync([FromRoute] Guid id)
     {
         return Ok(await _reviewService.GetByProduct(id));
     }
 
-    [HttpGet("/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<ReviewReadDTO>> GetReviewByIdAsync([FromRoute] Guid id)
     {
         return Ok(await _reviewService.GetOneById(id));
@@ -48,7 +48,7 @@ public class ReviewController : ControllerBase
         return CreatedAtAction(nameof(CreateReviewAsync), await _reviewService.CreateOne(Guid.Parse(userId), review));
     }
 
-    [HttpPatch("/{id}")]
+    [HttpPatch("{id}")]
     public async Task<ActionResult<ReviewReadDTO>> UpdateReviewByIdAsync([FromRoute] Guid id, [FromBody] ReviewUpdateDTO reviewUpdateDto)
     {
         ReviewReadDTO? foundReview = await _reviewService.GetOneById(id);
@@ -62,7 +62,7 @@ public class ReviewController : ControllerBase
         }
     }
 
-    [HttpDelete("/{id}")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult<bool>> DeleteReviewByIdAsync([FromRoute] Guid id)
     {
         ReviewReadDTO? foundReview = await _reviewService.GetOneById(id);

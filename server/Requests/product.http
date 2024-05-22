@@ -11,5 +11,6 @@ GET http://localhost:5074/api/v1/product/0252fce6-9df6-491d-82ca-6b077a51391d HT
 GET http://localhost:5074/api/v1/products/category/1fdf8fc7-6a70-4db3-a181-4406579258af HTTP/1.1
 
 ###
+# Delete product by id
 DELETE http://localhost:5074/api/v1/products/1313e6b1-70cb-411e-b993-a971ea764543 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQG1haWwuY29tIiwibmFtZWlkIjoiMjhiYzkwNmMtM2VjZS00YTMyLTgwMTktNmUzN2JmN2JkMGY0Iiwicm9sZSI6IkFkbWluIiwiVXNlcklkIjoiMjhiYzkwNmMtM2VjZS00YTMyLTgwMTktNmUzN2JmN2JkMGY0IiwibmJmIjoxNzE2MTUwNTQ1LCJleHAiOjE3MTY3NTUzNDUsImlhdCI6MTcxNjE1MDU0NSwiaXNzIjoid2ViZGVtby5jb20ifQ.QfYygATXEd_Qz5cU59oMr6naIZq7jh9xuTXeU6MDllM

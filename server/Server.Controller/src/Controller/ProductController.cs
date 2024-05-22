@@ -23,19 +23,19 @@ namespace Server.Controller.src.Controller
             return Ok(await _productServices.GetAllProductsAsync(options));
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ProductReadDTO>> GetProductByIdAsync([FromRoute] Guid id)
         {
             return Ok(await _productServices.GetProductById(id));
         }
 
-        [HttpGet("/category/{categoryId}")]
+        [HttpGet("category/{categoryId}")]
         public async Task<ActionResult<IEnumerable<ProductReadDTO>>> GetAllProductsByCategoryAsync([FromRoute] Guid categoryId)
         {
             return Ok(await _productServices.GetAllProductsByCategoryAsync(categoryId));
         }
 
-        [HttpGet("/top/{topNumber:int}")]
+        [HttpGet("top/{topNumber:int}")]
         public async Task<ActionResult<IEnumerable<ProductReadDTO>>> GetMostPurchased([FromRoute] int top)
         {
             return Ok(await _productServices.GetMostPurchasedProductsAsync(top));
@@ -49,14 +49,14 @@ namespace Server.Controller.src.Controller
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPatch("/{id}")]
+        [HttpPatch("{id}")]
         public async Task<ActionResult<ProductReadDTO>> UpdateProductAsync([FromRoute] Guid id, [FromBody] ProductUpdateDTO category)
         {
             return Ok(await _productServices.UpdateProduct(id, category));
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteProductAsync([FromRoute] Guid id)
         {
             return Ok(await _productServices.DeleteProduct(id));
