@@ -38,7 +38,7 @@ builder.Services.AddAuthorization(policy =>
 builder.Services.AddControllers();
 
 // adding db context into your app
-var dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("Localhost"));
+var dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("RemoteDb"));
 dataSourceBuilder.MapEnum<Role>();
 var dataSource = dataSourceBuilder.Build();
 builder.Services.AddDbContext<AppDbContext>
@@ -123,7 +123,11 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = string.Empty;
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
